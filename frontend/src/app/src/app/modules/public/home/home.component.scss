@@ -1,0 +1,412 @@
+@use 'sass:color';
+
+$primary-color: #2c3e50;
+$accent-color: #3498db;
+$gold-color: #d4af37;
+$bg-light: #f8f9fa;
+$text-dark: #333333;
+$text-muted: #666666;
+
+.landing-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: $text-dark;
+  line-height: 1.6;
+  background-color: #ffffff;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 5%;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: $primary-color;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 30px;
+    a {
+      text-decoration: none;
+      color: $text-muted;
+      font-weight: 500;
+      transition: color 0.2s;
+      &:hover {
+        color: $accent-color;
+      }
+    }
+  }
+
+  .nav-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    .btn-login {
+      text-decoration: none;
+      color: $primary-color;
+      font-weight: 600;
+    }
+    .btn-primary-header {
+      background-color: $primary-color;
+      color: white;
+      padding: 8.5px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+      &:hover {
+        background-color: color.adjust($primary-color, $lightness: 10%);
+      }
+    }
+  }
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+  color: white;
+  text-align: center;
+  padding: 100px 20px;
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+
+    .badge {
+      background: rgba(212, 175, 55, 0.2);
+      color: $gold-color;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 25px 0;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: #dcdde1;
+      margin-bottom: 35px;
+    }
+
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+
+      .btn-main {
+        background-color: $gold-color;
+        color: #1a252f;
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 1.05rem;
+        transition:
+          transform 0.2s,
+          background 0.2s;
+        &:hover {
+          background-color: #e5be3b;
+          transform: translateY(-2px);
+        }
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: border 0.2s;
+        &:hover {
+          border-color: white;
+        }
+      }
+    }
+
+    .hero-guarantee {
+      font-size: 0.85rem;
+      color: #a4b0be;
+    }
+  }
+}
+
+/* Sections General */
+section {
+  padding: 80px 10%;
+}
+
+.section-title {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 50px auto;
+  h2 {
+    font-size: 2.2rem;
+    color: $primary-color;
+    margin-bottom: 10px;
+  }
+  p {
+    color: $text-muted;
+    font-size: 1.05rem;
+  }
+}
+
+/* Features Grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+
+  .feature-card {
+    background: $bg-light;
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s;
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .icon {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    h3 {
+      font-size: 1.25rem;
+      color: $primary-color;
+      margin-bottom: 15px;
+    }
+    p {
+      color: $text-muted;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+/* Memorials Showcase */
+.memorials-showcase {
+  background-color: $bg-light;
+
+  .memorials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+
+    .memorial-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.3s;
+      &:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .memorial-img {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .memorial-info {
+        padding: 25px;
+        h3 {
+          font-size: 1.2rem;
+          color: $primary-color;
+          margin-bottom: 5px;
+        }
+        .dates {
+          font-size: 0.85rem;
+          color: $gold-color;
+          font-weight: 600;
+          display: block;
+          margin-bottom: 12px;
+        }
+        .tribute {
+          font-style: italic;
+          color: $text-muted;
+          font-size: 0.95rem;
+          margin-bottom: 20px;
+        }
+        .view-link {
+          color: $accent-color;
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+
+/* Benefits Section */
+.benefits-section {
+  .benefits-container {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    background: white;
+    border: 1px solid #e1e8ed;
+    border-radius: 16px;
+    padding: 50px;
+
+    .benefits-text {
+      flex: 1;
+      h2 {
+        font-size: 2rem;
+        color: $primary-color;
+        margin-bottom: 20px;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        li {
+          margin-bottom: 15px;
+          font-size: 1.05rem;
+          color: $text-muted;
+          strong {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+
+    .benefits-box-cta {
+      flex: 0.8;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      h3 {
+        font-size: 1.5rem;
+        color: $primary-color;
+        margin-bottom: 15px;
+      }
+      p {
+        color: $text-muted;
+        margin-bottom: 25px;
+      }
+      .btn-main {
+        background-color: $primary-color;
+        color: white;
+        padding: 14px 30px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.2s;
+        &:hover {
+          background-color: color.adjust($primary-color, $lightness: 10%);
+        }
+      }
+    }
+  }
+}
+
+/* FAQ Section */
+.faq-section {
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+
+    .faq-item {
+      background: $bg-light;
+      padding: 30px;
+      border-radius: 10px;
+      h3 {
+        font-size: 1.1rem;
+        color: $primary-color;
+        margin-bottom: 10px;
+      }
+      p {
+        color: $text-muted;
+        font-size: 0.95rem;
+      }
+    }
+  }
+}
+
+/* Footer */
+.footer {
+  background: #1a252f;
+  color: white;
+  padding: 60px 10% 20px 10%;
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 40px;
+    margin-bottom: 20px;
+
+    .footer-logo {
+      span {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      p {
+        color: #a4b0be;
+        font-size: 0.85rem;
+        margin-top: 5px;
+      }
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 25px;
+      a {
+        color: #a4b0be;
+        text-decoration: none;
+        font-size: 0.9rem;
+        &:hover {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    text-align: center;
+    color: #a4b0be;
+    font-size: 0.8rem;
+  }
+}
+
+/* Responsivo para celulares */
+@media (max-width: 768px) {
+  .navbar .nav-links {
+    display: none;
+  }
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  .benefits-container {
+    flex-direction: column;
+    padding: 30px 20px;
+  }
+  .hero-cta {
+    flex-direction: column;
+  }
+}

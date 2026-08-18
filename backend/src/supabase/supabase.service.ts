@@ -1,0 +1,41 @@
+import { Injectable } from '@nestjs/common';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+
+@Injectable()
+export class SupabaseService {
+  private supabase: SupabaseClient;
+  private bucket = process.env.SUPABASE_BUCKET || 'memorial-files';
+
+  constructor() {
+    this.supabase = createClient(
+      process.env.SUPABASE_URL!,
+      process.env.SUPABASE_KEY!,
+    );
+  }
+
+  async uploadFile(file: Express.Multer.File, folder: string): Promise<string> {
+    const fileExt = file.originalname.split('.').pop();
+    const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+
+    const { data, error } = await this.supabase.storage
+      .from(this.bucket)
+      .upload(fileName, file.buffer, {
+        contentType: file.mimetype,
+        upsert: false,
+      });
+
+    if (error) {
+      console.error('SUPABASE ERROR:', error);
+      console.error('SUPABASE ERROR CAUSE:', (error as any).cause);
+      throw new Error(
+        `Erro ao enviar arquivo para o Supabase: ${error.message}`,
+      );
+    }
+
+    const { data: publicUrlData } = this.supabase.storage
+      .from(this.bucket)
+      .getPublicUrl(data.path);
+
+    return publicUrlData.publicUrl;
+  }
+}

@@ -1,0 +1,64 @@
+<div class="messages-container">
+  <header class="messages-header">
+    <a routerLink="/dashboard" class="btn-back">⬅ Voltar ao Dashboard</a>
+    <h1>Moderação de Mensagens</h1>
+    <p>Aprove ou rejeite as homenagens deixadas pelos visitantes neste memorial.</p>
+  </header>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Carregando mensagens...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage">
+    <div *ngIf="messages.length === 0" class="empty-state">
+      <p>Ainda não há nenhuma mensagem enviada para este memorial.</p>
+    </div>
+
+    <div class="messages-list" *ngIf="messages.length > 0">
+      <div *ngFor="let msg of messages" class="message-card">
+        <div class="msg-info">
+          <div class="msg-author-row">
+            <strong>{{ msg.visitorName }}</strong>
+            <span class="msg-date">{{ msg.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <p class="msg-text">{{ msg.message }}</p>
+          <div class="msg-status-row">
+            <span>Status atual: </span>
+            <span
+              class="badge"
+              [ngClass]="{
+                'badge-approved': msg.status === 'APPROVED',
+                'badge-pending': msg.status === 'PENDING',
+                'badge-rejected': msg.status === 'REJECTED',
+              }"
+            >
+              {{ msg.status }}
+            </span>
+          </div>
+        </div>
+
+        <div class="msg-actions">
+          <button
+            *ngIf="msg.status !== 'APPROVED'"
+            (click)="updateStatus(msg.id, 'APPROVED')"
+            class="btn-approve"
+          >
+            ✓ Aprovar
+          </button>
+          <button
+            *ngIf="msg.status !== 'REJECTED'"
+            (click)="updateStatus(msg.id, 'REJECTED')"
+            class="btn-reject"
+          >
+            ✕ Rejeitar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

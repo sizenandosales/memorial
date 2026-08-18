@@ -1,0 +1,55 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Criar Conta</h2>
+      <p>Cadastre-se para começar a criar memoriais.</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Nome Completo</label>
+        <input type="text" id="name" formControlName="name" placeholder="Seu nome completo" />
+        <div
+          *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid"
+          class="error-text"
+        >
+          Insira seu nome (mínimo de 3 caracteres).
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" formControlName="email" placeholder="seu@email.com" />
+        <div
+          *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+          class="error-text"
+        >
+          Insira um e-mail válido.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Mínimo de 6 caracteres"
+        />
+        <div
+          *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+          class="error-text"
+        >
+          A senha deve ter pelo menos 6 caracteres.
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="registerForm.invalid">Cadastrar</button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Já tem uma conta? <a routerLink="/auth/login">Faça login</a></p>
+      <p><a routerLink="/">Voltar para a página inicial</a></p>
+    </div>
+  </div>
+</div>

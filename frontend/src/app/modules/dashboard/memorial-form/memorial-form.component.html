@@ -1,0 +1,123 @@
+<div class="form-wrapper">
+  <div class="form-container">
+    <!-- Cabeçalho Marcante -->
+    <div class="form-header">
+      <div class="header-icon">🕊️</div>
+      <h1>Criar Novo Memorial</h1>
+      <p>
+        Preencha as informações detalhadas e adicione as recordações para eternizar este legado.
+      </p>
+    </div>
+
+    <!-- Alerta de Erro -->
+    <div *ngIf="errorMessage" class="error-banner"><span>⚠️</span> {{ errorMessage }}</div>
+
+    <form [formGroup]="memorialForm" (ngSubmit)="onSubmit()">
+      <!-- URL Slug -->
+      <div class="form-group">
+        <label>URL Personalizada (Slug) *</label>
+        <div class="input-prefix-group">
+          <span class="prefix">memorialeterno.com.br/</span>
+          <input type="text" formControlName="slug" placeholder="nome-da-pessoa" />
+        </div>
+      </div>
+
+      <!-- Nome Completo -->
+      <div class="form-group">
+        <label>Nome Completo do Homenageado *</label>
+        <input type="text" formControlName="fullName" placeholder="Ex: João da Silva" />
+      </div>
+
+      <!-- Datas -->
+      <div class="form-row">
+        <div class="form-group half">
+          <label>Data de Nascimento *</label>
+          <input type="date" formControlName="birthDate" />
+        </div>
+        <div class="form-group half">
+          <label>Data de Falecimento *</label>
+          <input type="date" formControlName="deathDate" />
+        </div>
+      </div>
+
+      <!-- Cidades -->
+      <div class="form-row">
+        <div class="form-group half">
+          <label>Cidade de Nascimento *</label>
+          <input type="text" formControlName="birthCity" placeholder="Ex: Avaré - SP" />
+        </div>
+        <div class="form-group half">
+          <label>Cidade de Falecimento *</label>
+          <input type="text" formControlName="deathCity" placeholder="Ex: Botucatu - SP" />
+        </div>
+      </div>
+
+      <!-- Cemitério -->
+      <div class="form-group">
+        <label>Local do Memorial / Cemitério *</label>
+        <input type="text" formControlName="cemetery" placeholder="Ex: Cemitério Municipal" />
+      </div>
+
+      <!-- Foto de Perfil -->
+      <div class="form-group">
+        <label>Foto Principal de Perfil *</label>
+        <div class="file-drop-area">
+          <input
+            type="file"
+            (change)="onProfilePictureSelected($event)"
+            accept="image/*"
+            id="profile-file"
+          />
+          <label for="profile-file" class="file-label-btn">
+            📷
+            {{
+              selectedProfileFile
+                ? selectedProfileFile.name
+                : 'Selecionar foto principal do computador...'
+            }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Galeria de Fotos (Múltiplas) -->
+      <div class="form-group">
+        <label>Galeria de Fotos (Opcional - Vários arquivos)</label>
+        <div class="file-drop-area">
+          <input
+            type="file"
+            (change)="onGalleryFilesSelected($event)"
+            accept="image/*"
+            multiple
+            id="gallery-files"
+          />
+          <label for="gallery-files" class="file-label-btn">
+            🖼️
+            {{
+              selectedGalleryFiles.length > 0
+                ? selectedGalleryFiles.length + ' foto(s) selecionada(s)'
+                : 'Selecionar fotos da galeria...'
+            }}
+          </label>
+        </div>
+      </div>
+
+      <!-- Biografia -->
+      <div class="form-group">
+        <label>Biografia / Histórico de Vida *</label>
+        <textarea
+          formControlName="biography"
+          rows="6"
+          placeholder="Escreva uma bela história sobre a vida, legados e memórias..."
+        ></textarea>
+      </div>
+
+      <!-- Botões de Ação -->
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" routerLink="/dashboard">Cancelar</button>
+        <button type="submit" class="btn-save" [disabled]="memorialForm.invalid || loading">
+          {{ loading ? 'Salvando no Sistema...' : 'Criar Memorial' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

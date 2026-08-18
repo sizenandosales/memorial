@@ -1,0 +1,39 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Entrar no Memorial</h2>
+      <p>Acesse sua conta para gerenciar os memoriais.</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" formControlName="email" placeholder="seu@email.com" />
+        <div
+          *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+          class="error-text"
+        >
+          Insira um e-mail válido.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" formControlName="password" placeholder="Sua senha" />
+        <div
+          *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+          class="error-text"
+        >
+          A senha deve ter pelo menos 6 caracteres.
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="loginForm.invalid">Entrar</button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Ainda não tem uma conta? <a routerLink="/auth/register">Cadastre-se</a></p>
+      <p><a routerLink="/">Voltar para a página inicial</a></p>
+    </div>
+  </div>
+</div>

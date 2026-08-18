@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String     @id @default(uuid())
+  name                 String
+  email                String     @unique
+  password             String
+  role                 String     @default("USER")
+  createdAt            DateTime   @default(now())
+  bairro               String
+  cep                  String
+  cidade               String
+  complemento          String?
+  document             String     @unique
+  logradouro           String
+  numero               String
+  phone                String?
+  refreshToken         String?
+  uf                   String
+  updatedAt            DateTime   @updatedAt
+  isVerified           Boolean    @default(false)
+  verificationToken    String?    @unique
+  resetPasswordExpires DateTime?
+  resetPasswordToken   String?
+  memorials            Memorial[]
+}
+
+model Partner {
+  id         String     @id @default(uuid())
+  name       String
+  cpfCnpj    String     @unique
+  email      String     @unique
+  password   String
+  role       String     @default("PARTNER")
+  totalSales Float      @default(0.0)
+  createdAt  DateTime   @default(now())
+  memorials  Memorial[]
+}
+
+model Memorial {
+  id             String         @id @default(uuid())
+  slug           String         @unique
+  fullName       String
+  birthDate      DateTime
+  deathDate      DateTime
+  birthCity      String
+  deathCity      String
+  cemetery       String
+  biography      String
+  profilePicture String
+  gallery        String[]
+  status         String         @default("PENDING")
+  expiresAt      DateTime?
+  createdAt      DateTime       @default(now())
+  userId         String?
+  partnerId      String?
+  partner        Partner?       @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  user           User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  muralMessages  MuralMessage[]
+}
+
+model MuralMessage {
+  id          String   @id @default(uuid())
+  visitorName String
+  message     String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  memorialId  String
+  memorial    Memorial @relation(fields: [memorialId], references: [id], onDelete: Cascade)
+}

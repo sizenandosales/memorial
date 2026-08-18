@@ -1,0 +1,55 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MemorialService {
+  // Altere para a porta em que o seu backend NestJS está rodando (ex: 3000)
+  private apiUrl = 'http://localhost:3000/memorials';
+
+  constructor(private http: HttpClient) {}
+
+  /**
+   * Cria um novo memorial enviando o FormData com os textos e os arquivos de imagem.
+   */
+  createMemorial(formData: FormData): Observable<any> {
+    return this.http.post<any>(this.apiUrl, formData);
+  }
+
+  /**
+   * Lista todos os memoriais do usuário logado.
+   */
+  getMemorials(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  /**
+   * Busca um memorial específico pelo slug.
+   */
+  getMemorialBySlug(slug: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${slug}`);
+  }
+
+  /**
+   * Atualiza um memorial existente.
+   */
+  updateMemorial(slug: string, data: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${slug}`, data);
+  }
+
+  /**
+   * Atualiza o status do memorial (ex: PENDING para ACTIVE).
+   */
+  changeMemorialStatus(slug: string, status: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${slug}/status`, { status });
+  }
+
+  /**
+   * Remove um memorial.
+   */
+  deleteMemorial(slug: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${slug}`);
+  }
+}

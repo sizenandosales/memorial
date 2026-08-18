@@ -1,0 +1,541 @@
+$primary-dark: #0f172a;
+$accent-gold: #d4af37;
+$bg-page: #f8fafc;
+$card-bg: #ffffff;
+$text-main: #334155;
+$text-muted: #64748b;
+$border-color: #e2e8f0;
+
+.memorial-page {
+  min-height: 100vh;
+  background-color: $bg-page;
+  color: $text-main;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.memorial-hero {
+  position: relative;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  padding: 80px 20px 60px 20px;
+  text-align: center;
+  color: #ffffff;
+  border-bottom: 5px solid $accent-gold;
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .profile-picture-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid $accent-gold;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    position: relative;
+    cursor: pointer;
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .zoom-hint {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.75);
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 4px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    &:hover {
+      .profile-img {
+        transform: scale(1.08);
+      }
+      .zoom-hint {
+        opacity: 1;
+      }
+    }
+  }
+
+  .tribute-badge {
+    background: rgba(212, 175, 55, 0.2);
+    color: $accent-gold;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .homenageado-name {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 15px 0 10px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .lifespan-dates {
+    font-size: 1.15rem;
+    color: #cbd5e1;
+    font-weight: 500;
+  }
+}
+
+.memorial-body {
+  max-width: 900px;
+  margin: -30px auto 0 auto;
+  padding: 0 20px 60px 20px;
+  position: relative;
+  z-index: 3;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-card {
+  background: $card-bg;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid $border-color;
+
+  .info-icon {
+    font-size: 1.8rem;
+  }
+
+  .info-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: $text-muted;
+    font-weight: 700;
+  }
+
+  .info-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $primary-dark;
+  }
+}
+
+.biography-section,
+.gallery-section,
+.mural-section {
+  background: $card-bg;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  margin-bottom: 40px;
+  border: 1px solid $border-color;
+
+  h2 {
+    color: $primary-dark;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+
+  .section-subtitle {
+    color: $text-muted;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+    border-bottom: 2px solid $bg-page;
+    padding-bottom: 12px;
+  }
+}
+
+.biography-content {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: $text-main;
+  white-space: pre-line;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+
+  .gallery-item {
+    height: 180px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid $border-color;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    position: relative;
+    cursor: pointer;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+      img {
+        transform: scale(1.08);
+      }
+      .gallery-overlay {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+/* Mural de Mensagens */
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+
+  .message-card {
+    background: $bg-page;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid $border-color;
+
+    .msg-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+
+      strong {
+        color: $primary-dark;
+        font-size: 0.95rem;
+      }
+
+      .msg-date {
+        font-size: 0.8rem;
+        color: $text-muted;
+      }
+    }
+
+    .msg-text {
+      font-size: 0.95rem;
+      color: $text-main;
+      line-height: 1.5;
+    }
+  }
+}
+
+.no-messages-text {
+  color: $text-muted;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+.mural-form-container {
+  background: $bg-page;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid $border-color;
+
+  h3 {
+    font-size: 1.15rem;
+    color: $primary-dark;
+    margin-bottom: 15px;
+  }
+
+  .mural-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $primary-dark;
+      }
+
+      .form-control {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid $border-color;
+        font-size: 0.95rem;
+        background: #fff;
+        color: $text-main;
+        outline: none;
+        transition: border-color 0.2s;
+
+        &:focus {
+          border-color: $accent-gold;
+        }
+      }
+    }
+
+    .btn-submit {
+      background: $primary-dark;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover:not(:disabled) {
+        background: #1e293b;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+
+    .alert-success {
+      color: #16a34a;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .alert-error {
+      color: #dc2626;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+}
+
+/* Rodapé */
+.memorial-footer {
+  background: $primary-dark;
+  color: #fff;
+  padding: 50px 20px 20px 20px;
+  text-align: center;
+
+  .footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 10px;
+
+      .footer-logo-icon {
+        font-size: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.3rem;
+        color: $accent-gold;
+        margin: 0;
+      }
+    }
+
+    p {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+    }
+
+    .footer-cta {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 30px;
+
+      span {
+        display: block;
+        font-size: 0.9rem;
+        color: #cbd5e1;
+        margin-bottom: 12px;
+      }
+
+      .btn-frontpage {
+        display: inline-block;
+        background: $accent-gold;
+        color: #0f172a;
+        padding: 10px 22px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: transform 0.2s;
+
+        &:hover {
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    font-size: 0.8rem;
+    color: #64748b;
+  }
+}
+
+/* Modal Lightbox / Zoom */
+.image-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  .modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .modal-img {
+      max-width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 2px solid $accent-gold;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -45px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 15px;
+
+      .nav-btn {
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.3);
+        }
+      }
+
+      .nav-counter {
+        color: #cbd5e1;
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+/* Estados de Carregamento ou Erro */
+.status-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $bg-page;
+  text-align: center;
+  padding: 20px;
+
+  .loading-state {
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid $border-color;
+      border-top-color: $accent-gold;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 15px auto;
+    }
+  }
+
+  .error-state {
+    span {
+      font-size: 3rem;
+    }
+    h2 {
+      margin: 15px 0;
+      color: $primary-dark;
+    }
+    .btn-home {
+      display: inline-block;
+      margin-top: 15px;
+      background: $accent-gold;
+      color: #111827;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

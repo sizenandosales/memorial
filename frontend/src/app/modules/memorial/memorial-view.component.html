@@ -1,0 +1,191 @@
+<div class="memorial-page" *ngIf="!loading && memorial; else loadingOrError">
+  <!-- HERO / CABEÇALHO DO TRIBUTO -->
+  <header class="memorial-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div
+        class="profile-picture-container"
+        (click)="openProfileZoom()"
+        title="Clique para ampliar a foto"
+      >
+        <img
+          [src]="memorial.profilePicture || 'assets/default-avatar.png'"
+          [alt]="memorial.fullName"
+          class="profile-img"
+        />
+        <div class="zoom-hint">🔍 Ampliar</div>
+      </div>
+      <span class="tribute-badge">🕊️ Em Memória Eterna</span>
+      <h1 class="homenageado-name">{{ memorial.fullName }}</h1>
+      <p class="lifespan-dates">
+        {{ memorial.birthDate | date: 'dd/MM/yyyy' }} —
+        {{ memorial.deathDate | date: 'dd/MM/yyyy' }}
+      </p>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="memorial-body">
+    <!-- CARD DE INFORMAÇÕES RÁPIDAS -->
+    <section class="info-grid">
+      <div class="info-card">
+        <span class="info-icon">📍</span>
+        <div>
+          <span class="info-label">Naturalidade</span>
+          <span class="info-value">{{ memorial.birthCity }}</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">🕊️</span>
+        <div>
+          <span class="info-label">Falecimento em</span>
+          <span class="info-value">{{ memorial.deathCity }}</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <span class="info-icon">🏛️</span>
+        <div>
+          <span class="info-label">Local de Repouso</span>
+          <span class="info-value">{{ memorial.cemetery }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO DA BIOGRAFIA -->
+    <section class="biography-section">
+      <h2>Histórico de Vida e Legado</h2>
+      <div class="biography-content">
+        <p>{{ memorial.biography }}</p>
+      </div>
+    </section>
+
+    <!-- GALERIA DE FOTOS -->
+    <section class="gallery-section" *ngIf="memorial.gallery && memorial.gallery.length > 0">
+      <h2>Galeria de Recordações</h2>
+      <p class="section-subtitle">Clique em qualquer foto para visualizar em tela cheia.</p>
+      <div class="gallery-grid">
+        <div
+          class="gallery-item"
+          *ngFor="let photo of memorial.gallery; let i = index"
+          (click)="openGalleryLightbox(i)"
+        >
+          <img [src]="photo" alt="Foto da galeria do memorial" />
+          <div class="gallery-overlay">🔍 Ver ampliada</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MURAL DE MENSAGENS E HOMENAGENS -->
+    <section class="mural-section">
+      <h2>Mural de Homenagens</h2>
+      <p class="section-subtitle">Deixe uma palavra de conforto ou carinho para a família.</p>
+
+      <!-- Lista de Mensagens Aprovadas -->
+      <div class="messages-list" *ngIf="approvedMessages.length > 0; else noMessages">
+        <div class="message-card" *ngFor="let msg of approvedMessages">
+          <div class="msg-header">
+            <strong>{{ msg.visitorName }}</strong>
+            <span class="msg-date">{{ msg.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+          <p class="msg-text">{{ msg.message }}</p>
+        </div>
+      </div>
+      <ng-template #noMessages>
+        <p class="no-messages-text">
+          Ainda não há mensagens aprovadas neste mural. Seja o primeiro a deixar uma homenagem!
+        </p>
+      </ng-template>
+
+      <!-- Formulário para Enviar Mensagem -->
+      <div class="mural-form-container">
+        <h3>Deixe sua Mensagem</h3>
+        <form (ngSubmit)="sendMuralMessage(muralForm)" #muralForm="ngForm" class="mural-form">
+          <div class="form-group">
+            <label for="visitorName">Seu Nome</label>
+            <input
+              type="text"
+              id="visitorName"
+              name="visitorName"
+              [(ngModel)]="visitorName"
+              required
+              placeholder="Digite seu nome completo"
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="visitorMessage">Sua Mensagem de Homenagem</label>
+            <textarea
+              id="visitorMessage"
+              name="visitorMessage"
+              [(ngModel)]="visitorMessage"
+              required
+              rows="4"
+              placeholder="Escreva sua mensagem com carinho..."
+              class="form-control"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-submit"
+            [disabled]="muralForm.invalid || messageSubmitting"
+          >
+            {{ messageSubmitting ? 'Enviando...' : 'Enviar Homenagem' }}
+          </button>
+
+          <p class="alert-success" *ngIf="messageSuccess">{{ messageSuccess }}</p>
+          <p class="alert-error" *ngIf="messageError">{{ messageError }}</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- RODAPÉ INSTITUCIONAL COM CTA -->
+  <footer class="memorial-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="footer-logo-icon">🕊️</span>
+        <h3>Memorial Eterno</h3>
+      </div>
+      <p>Preservando histórias, honrando legados e mantendo vivas as melhores lembranças.</p>
+      <div class="footer-cta">
+        <span>Deseja eternizar a memória de um ente querido também?</span>
+        <a routerLink="/" class="btn-frontpage">Criar um Memorial</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Memorial Eterno. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- MODAL LIGHTBOX / ZOOM DE IMAGENS -->
+<div class="image-modal" *ngIf="activeModalImage" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeModal()">&times;</button>
+    <img [src]="activeModalImage" alt="Imagem ampliada" class="modal-img" />
+
+    <!-- Controles de navegação caso seja galeria com mais de 1 foto -->
+    <div class="modal-nav" *ngIf="memorial.gallery && memorial.gallery.length > 1">
+      <button class="nav-btn" (click)="prevGalleryImage()">&#10094; Anterior</button>
+      <span class="nav-counter">{{ galleryIndex + 1 }} / {{ memorial.gallery.length }}</span>
+      <button class="nav-btn" (click)="nextGalleryImage()">Próxima &#10095;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ESTADOS DE CARREGAMENTO OU ERRO -->
+<ng-template #loadingOrError>
+  <div class="status-container">
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Buscando memórias...</p>
+    </div>
+    <div *ngIf="errorMessage" class="error-state">
+      <span>⚠️</span>
+      <h2>{{ errorMessage }}</h2>
+      <a routerLink="/" class="btn-home">Voltar à Página Inicial</a>
+    </div>
+  </div>
+</ng-template>

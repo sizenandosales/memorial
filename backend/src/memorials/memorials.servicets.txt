@@ -1,0 +1,164 @@
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+  BadRequestException,
+} from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { SupabaseService } from '../supabase/supabase.service';
+import { CreateMemorialDto } from './dto/create-memorial.dto';
+import { UpdateMemorialDto } from './dto/update-memorial.dto';
+
+@Injectable()
+export class MemorialsService {
+  constructor(
+    private prisma: PrismaService,
+    private supabaseService: SupabaseService,
+  ) {}
+
+  async create(
+    createMemorialDto: CreateMemorialDto,
+    files: {
+      profilePicture?: Express.Multer.File[];
+      gallery?: Express.Multer.File[];
+    },
+    userId: string,
+  ) {
+    // 1. Validar se a foto de perfil foi enviada obrigatoriamente
+    if (!files.profilePicture || files.profilePicture.length === 0) {
+      throw new BadRequestException(
+        'A foto de perfil (profilePicture) é obrigatória.',
+      );
+    }
+
+    // 2. Fazer o upload da foto de perfil para o Supabase
+    const profileFile = files.profilePicture[0];
+    const profilePictureUrl = await this.supabaseService.uploadFile(
+      profileFile,
+      'profiles',
+    );
+
+    // 3. Fazer o upload das fotos da galeria (se houver) para o Supabase
+    const galleryUrls: string[] = [];
+    if (files.gallery && files.gallery.length > 0) {
+      for (const image of files.gallery) {
+        const imageUrl = await this.supabaseService.uploadFile(
+          image,
+          'gallery',
+        );
+        galleryUrls.push(imageUrl);
+      }
+    }
+
+    // 4. Gerar um slug amigável e único baseado no nome completo
+    const baseSlug = createMemorialDto.fullName
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-');
+
+    const slug = `${baseSlug}-${Date.now().toString().slice(-4)}`;
+
+    // 5. Salvar no Banco de Dados utilizando o Prisma com tratamento correto dos campos
+    return this.prisma.memorial.create({
+      data: {
+        fullName: createMemorialDto.fullName,
+        birthCity: createMemorialDto.birthCity,
+        deathCity: createMemorialDto.deathCity,
+        cemetery: createMemorialDto.cemetery,
+        biography: createMemorialDto.biography,
+        status: createMemorialDto.status || 'PENDING',
+        slug,
+        birthDate: new Date(createMemorialDto.birthDate),
+        deathDate: new Date(createMemorialDto.deathDate),
+        expiresAt: createMemorialDto.expiresAt
+          ? new Date(createMemorialDto.expiresAt)
+          : null,
+        partnerId:
+          createMemorialDto.partnerId &&
+          createMemorialDto.partnerId.trim() !== ''
+            ? createMemorialDto.partnerId
+            : null,
+        profilePicture: profilePictureUrl,
+        gallery: galleryUrls,
+        userId,
+      },
+    });
+  }
+
+  async findAll(userId: string) {
+    return this.prisma.memorial.findMany({
+      where: { userId },
+      include: { muralMessages: true },
+    });
+  }
+
+  async findOne(slug: string) {
+    const memorial = await this.prisma.memorial.findUnique({
+      where: { slug },
+      include: { muralMessages: true },
+    });
+    if (!memorial)
+      throw new NotFoundException(`Memorial '${slug}' não encontrado.`);
+    return memorial;
+  }
+
+  async update(
+    slug: string,
+    updateMemorialDto: UpdateMemorialDto,
+    userId: string,
+  ) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissão.');
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: updateMemorialDto,
+    });
+  }
+
+  // NOVA FUNÇÃO PARA ATUALIZAR O STATUS DO MEMORIAL
+  async updateStatus(slug: string, status: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissão.');
+
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: { status },
+    });
+  }
+
+  async remove(slug: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissão.');
+    return this.prisma.memorial.delete({ where: { slug } });
+  }
+
+  // --- Lógica de Galeria ---
+
+  async addImage(slug: string, imageUrl: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissão.');
+
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: { gallery: { push: imageUrl } },
+    });
+  }
+
+  async removeImage(slug: string, imageUrl: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissão.');
+
+    const updatedGallery = memorial.gallery.filter((url) => url !== imageUrl);
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: { gallery: { set: updatedGallery } },
+    });
+  }
+}

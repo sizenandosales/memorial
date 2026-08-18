@@ -1,0 +1,42 @@
+import { Routes } from '@angular/router';
+import { HomeComponent } from './modules/public/home/home';
+import { LoginComponent } from './modules/auth/login/login.component';
+import { RegisterComponent } from './modules/auth/register/register.component';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { MemorialFormComponent } from './modules/dashboard/memorial-form/memorial-form.component';
+import { MemorialCreateComponent } from './modules/dashboard/memorials/memorial-create.component';
+import { MemorialViewComponent } from './modules/memorial/memorial-view.component';
+import { authGuard } from './guards/auth.guards';
+
+export const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent,
+  },
+  {
+    path: 'auth/login',
+    component: LoginComponent,
+  },
+  {
+    path: 'auth/register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'dashboard/memorials/new',
+    component: MemorialFormComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'memorial/:slug',
+    component: MemorialViewComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
+];

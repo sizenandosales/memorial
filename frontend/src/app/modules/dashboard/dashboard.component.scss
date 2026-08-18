@@ -1,0 +1,295 @@
+// Definição de Variáveis Globais para o Componente
+$primary-color: #0f172a;
+$accent-color: #d4af37;
+$border-color: #e2e8f0;
+$bg-page: #f8fafc;
+$card-bg: #ffffff;
+$text-main: #334155;
+$text-muted: #64748b;
+
+// Estrutura Principal do Dashboard
+.dashboard-container {
+  min-height: 100vh;
+  background-color: $bg-page;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: $text-main;
+
+  .navbar {
+    background: $card-bg;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $border-color;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: $primary-color;
+
+      .logo-icon {
+        font-size: 1.4rem;
+      }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+
+      a {
+        text-decoration: none;
+        color: $text-muted;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: color 0.2s;
+
+        &:hover,
+        &.active {
+          color: $accent-color;
+        }
+      }
+    }
+
+    .btn-logout {
+      background: #fee2e2;
+      color: #dc2626;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: filter 0.2s;
+
+      &:hover {
+        filter: brightness(0.95);
+      }
+    }
+  }
+
+  .dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+
+    .welcome-banner {
+      background: $card-bg;
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid $border-color;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      h1 {
+        color: $primary-color;
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+      }
+
+      p {
+        color: $text-muted;
+        font-size: 0.95rem;
+      }
+
+      .btn-primary-dashboard {
+        background: $primary-color;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: background 0.2s;
+
+        &:hover {
+          background: lighten($primary-color, 10%);
+        }
+      }
+    }
+  }
+}
+
+// Grade de Memoriais
+.memorials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.memorial-card {
+  background: $card-bg;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .memorial-click-area {
+    cursor: pointer;
+    display: block;
+    flex: 1;
+
+    .memorial-img-wrapper {
+      position: relative;
+      height: 180px;
+      background: #e2e8f0;
+
+      .memorial-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .memorial-img-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        background: #f1f5f9;
+      }
+
+      .status-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+
+        &.status-active {
+          background: #dcfce7;
+          color: #16a34a;
+        }
+
+        &.status-pending {
+          background: #fef9c3;
+          color: #ca8a04;
+        }
+      }
+    }
+
+    .memorial-info {
+      padding: 20px;
+
+      h3 {
+        color: $primary-color;
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+
+      .dates {
+        font-size: 0.85rem;
+        color: $text-muted;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .biography {
+        font-size: 0.9rem;
+        color: $text-main;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.4;
+      }
+    }
+  }
+
+  .card-actions {
+    padding: 15px 20px;
+    border-top: 1px solid $border-color;
+    display: flex;
+    gap: 8px;
+    background: #fff;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .btn-action {
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: filter 0.2s;
+
+      &.btn-msg {
+        background: #e3f2fd;
+        color: #1565c0;
+      }
+      &.btn-edit {
+        background: #fff3e0;
+        color: #ef6c00;
+      }
+      &:hover {
+        filter: brightness(0.9);
+      }
+    }
+
+    .btn-approve {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: auto;
+
+      &:hover {
+        background-color: #1b5e20;
+      }
+    }
+  }
+}
+
+.loading-state {
+  text-align: center;
+  padding: 50px;
+  color: $text-muted;
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid $border-color;
+    border-top-color: $accent-color;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 15px auto;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
