@@ -29,9 +29,7 @@ export class MemorialFormComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
 
-    // Captura o slug da URL (ex: /dashboard/memorials/edit/nome-do-ente-querido)
     this.memorialSlug = this.route.snapshot.paramMap.get('slug');
-
     if (this.memorialSlug) {
       this.isEditing = true;
       this.loadMemorialData(this.memorialSlug);
@@ -40,7 +38,7 @@ export class MemorialFormComponent implements OnInit {
 
   initForm(): void {
     this.memorialForm = this.fb.group({
-      slug: ['', Validators.required],
+      slug: [''],
       fullName: ['', Validators.required],
       birthDate: ['', Validators.required],
       deathDate: ['', Validators.required],
@@ -55,12 +53,9 @@ export class MemorialFormComponent implements OnInit {
     this.loading = true;
     this.memorialService.getMemorialBySlug(slug).subscribe({
       next: (data) => {
-        console.log('Dados recebidos da API:', data);
-        // Formata as datas de YYYY-MM-DDTHH:mm:ss para YYYY-MM-DD (padrão exigido pelo input type="date")
         const birthFormatted = data.birthDate ? data.birthDate.split('T')[0] : '';
         const deathFormatted = data.deathDate ? data.deathDate.split('T')[0] : '';
 
-        // Preenche o formulário reativo com os dados vindos do backend
         this.memorialForm.patchValue({
           slug: data.slug || '',
           fullName: data.fullName || '',
@@ -99,6 +94,12 @@ export class MemorialFormComponent implements OnInit {
   onSubmit(): void {
     if (this.memorialForm.invalid) {
       this.memorialForm.markAllAsTouched();
+      this.errorMessage = 'Por favor, preencha todos os campos obrigatórios.';
+      return;
+    }
+
+    if (!this.isEditing && !this.selectedProfileFile) {
+      this.errorMessage = 'A foto principal de perfil é obrigatória.';
       return;
     }
 
@@ -107,28 +108,46 @@ export class MemorialFormComponent implements OnInit {
     const formValues = this.memorialForm.value;
 
     if (this.isEditing && this.memorialSlug) {
-      // Atualização
+      // ATUALIZAÇÃO (Redireciona com queryParams indicando sucesso de atualização)
       this.memorialService.updateMemorial(this.memorialSlug, formValues).subscribe({
         next: () => {
-          alert('Memorial atualizado com sucesso!');
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard'], { queryParams: { success: 'updated' } });
         },
         error: (err) => {
           console.error('Erro ao atualizar memorial:', err);
-          this.errorMessage = 'Erro ao atualizar o memorial.';
+          this.errorMessage = err.error?.message || 'Erro ao atualizar o memorial.';
           this.loading = false;
         },
       });
     } else {
-      // Criação (ajuste caso tenha um método específico de criação no seu service)
-      this.memorialService.updateMemorial('', formValues).subscribe({
+      // CRIAÇÃO (Redireciona com queryParams indicando sucesso de criação)
+      const formData = new FormData();
+      formData.append('fullName', formValues.fullName);
+      formData.append('birthDate', formValues.birthDate);
+      formData.append('deathDate', formValues.deathDate);
+      formData.append('birthCity', formValues.birthCity);
+      formData.append('deathCity', formValues.deathCity);
+      formData.append('cemetery', formValues.cemetery);
+      formData.append('biography', formValues.biography);
+
+      if (this.selectedProfileFile) {
+        formData.append('profilePicture', this.selectedProfileFile);
+      }
+
+      if (this.selectedGalleryFiles.length > 0) {
+        for (const file of this.selectedGalleryFiles) {
+          formData.append('gallery', file);
+        }
+      }
+
+      this.memorialService.createMemorial(formData).subscribe({
         next: () => {
-          alert('Memorial criado com sucesso!');
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard'], { queryParams: { success: 'created' } });
         },
         error: (err) => {
           console.error('Erro ao criar memorial:', err);
-          this.errorMessage = 'Erro ao criar o memorial.';
+          this.errorMessage =
+            err.error?.message || 'Erro ao criar o memorial. Verifique o console.';
           this.loading = false;
         },
       });

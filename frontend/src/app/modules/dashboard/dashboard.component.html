@@ -12,6 +12,12 @@
   </header>
 
   <main class="dashboard-content">
+    <!-- Banner de Alerta de Sucesso -->
+    <div *ngIf="successMessage" class="success-banner">
+      <span class="banner-icon">✔️</span>
+      <span>{{ successMessage }}</span>
+    </div>
+
     <div class="welcome-banner">
       <div>
         <h1>Gerenciador de Homenagens</h1>

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -6,50 +6,38 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class MemorialService {
-  // Altere para a porta em que o seu backend NestJS está rodando (ex: 3000)
-  private apiUrl = 'http://localhost:3000/memorials';
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000'; // Ajuste se necessário
 
-  constructor(private http: HttpClient) {}
-
-  /**
-   * Cria um novo memorial enviando o FormData com os textos e os arquivos de imagem.
-   */
-  createMemorial(formData: FormData): Observable<any> {
-    return this.http.post<any>(this.apiUrl, formData);
-  }
-
-  /**
-   * Lista todos os memoriais do usuário logado.
-   */
+  // Lista todos os memoriais do usuário logado
   getMemorials(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(`${this.apiUrl}/memorials`);
   }
 
-  /**
-   * Busca um memorial específico pelo slug.
-   */
+  // Busca um memorial específico pelo slug
   getMemorialBySlug(slug: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${slug}`);
+    return this.http.get<any>(`${this.apiUrl}/memorials/${slug}`);
   }
 
-  /**
-   * Atualiza um memorial existente.
-   */
-  updateMemorial(slug: string, data: any): Observable<any> {
-    return this.http.patch<any>(`${this.apiUrl}/${slug}`, data);
-  }
-
-  /**
-   * Atualiza o status do memorial (ex: PENDING para ACTIVE).
-   */
+  // Altera o status geral do memorial
   changeMemorialStatus(slug: string, status: string): Observable<any> {
-    return this.http.patch<any>(`${this.apiUrl}/${slug}/status`, { status });
+    return this.http.patch<any>(`${this.apiUrl}/memorials/${slug}/status`, { status });
   }
 
-  /**
-   * Remove um memorial.
-   */
-  deleteMemorial(slug: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${slug}`);
+  // Atualiza os dados cadastrais de um memorial
+  updateMemorial(slug: string, data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/memorials/${slug}`, data);
+  }
+
+  // Busca todas as mensagens de um memorial para moderação (Alinhado com a nova rota do backend)
+  getMemorialMessages(slug: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/memorials/${slug}/messages/all`);
+  }
+
+  // Altera o status de uma mensagem do mural (Aprovar/Rejeitar)
+  updateMessageStatus(messageId: string, status: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/memorials/messages/${messageId}/status`, {
+      status,
+    });
   }
 }

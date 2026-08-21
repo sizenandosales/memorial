@@ -19,17 +19,22 @@ export class MemorialService {
     return this.http.get<any>(`${this.apiUrl}/memorials/${slug}`);
   }
 
+  // Cria um novo memorial (Envia FormData com textos e imagens)
+  createMemorial(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/memorials`, formData);
+  }
+
+  // Atualiza os dados cadastrais de um memorial (Usa PATCH conforme o backend)
+  updateMemorial(slug: string, data: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/memorials/${slug}`, data);
+  }
+
   // Altera o status geral do memorial
   changeMemorialStatus(slug: string, status: string): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/memorials/${slug}/status`, { status });
   }
 
-  // Atualiza os dados cadastrais de um memorial
-  updateMemorial(slug: string, data: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/memorials/${slug}`, data);
-  }
-
-  // Busca todas as mensagens de um memorial para moderação (Alinhado com a nova rota do backend)
+  // Busca todas as mensagens de um memorial para moderação
   getMemorialMessages(slug: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/memorials/${slug}/messages/all`);
   }

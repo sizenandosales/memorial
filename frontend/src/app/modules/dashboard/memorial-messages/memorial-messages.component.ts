@@ -1,5 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  OnInit,
+  inject,
+  PLATFORM_ID,
+  afterNextRender,
+  ChangeDetectorRef,
+} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MemorialService } from '../../../services/memorial.service';
 
@@ -12,34 +19,48 @@ import { MemorialService } from '../../../services/memorial.service';
 })
 export class MemorialMessagesComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private platformId = inject(PLATFORM_ID);
   private memorialService = inject(MemorialService);
+  private cdr = inject(ChangeDetectorRef);
 
   slug: string | null = null;
   messages: any[] = [];
   loading: boolean = true;
   errorMessage: string = '';
 
+  constructor() {
+    // Garante que a leitura do slug e a busca de mensagens ocorram com segurança após o render no navegador
+    afterNextRender(() => {
+      this.slug = this.route.snapshot.paramMap.get('slug');
+      if (this.slug) {
+        this.loadMessages(this.slug);
+      } else {
+        this.errorMessage = 'Slug inválido.';
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
   ngOnInit(): void {
-    this.slug = this.route.snapshot.paramMap.get('slug');
-    if (this.slug) {
-      this.loadMessages(this.slug);
-    } else {
-      this.errorMessage = 'Slug inválido.';
-      this.loading = false;
-    }
+    // Mantemos o ngOnInit limpo, pois o carregamento principal é tratado no afterNextRender
   }
 
   loadMessages(slug: string): void {
     this.loading = true;
     this.memorialService.getMemorialMessages(slug).subscribe({
       next: (data) => {
+        console.log('Mensagens carregadas com sucesso:', data);
         this.messages = data;
         this.loading = false;
+        // Força a atualização da tela para remover o loading e exibir as mensagens
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Erro ao carregar mensagens:', err);
         this.errorMessage = 'Não foi possível carregar as mensagens.';
         this.loading = false;
+        this.cdr.detectChanges();
       },
     });
   }
@@ -52,6 +73,7 @@ export class MemorialMessagesComponent implements OnInit {
         if (msg) {
           msg.status = status;
         }
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Erro ao alterar status da mensagem:', err);

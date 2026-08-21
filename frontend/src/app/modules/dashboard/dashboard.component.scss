@@ -77,6 +77,27 @@ $text-muted: #64748b;
     margin: 0 auto;
     padding: 30px 20px;
 
+    // Banner de Sucesso
+    .success-banner {
+      background-color: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      animation: slideDown 0.4s ease-out;
+
+      .banner-icon {
+        font-size: 1.2rem;
+      }
+    }
+
     .welcome-banner {
       background: $card-bg;
       padding: 30px;
@@ -291,5 +312,16 @@ $text-muted: #64748b;
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
