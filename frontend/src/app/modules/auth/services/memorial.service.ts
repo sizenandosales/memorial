@@ -42,6 +42,10 @@ export class MemorialService {
     return this.http.get<Memorial[]>(this.apiUrl, this.getHeaders());
   }
 
+  sendVisitorMessage(memorialId: string, payload: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/memorials/${memorialId}/messages`, payload);
+  }
+
   // Cria um novo memorial (Atenção: recebe FormData por causa das imagens)
   createMemorial(memorialData: FormData): Observable<Memorial> {
     return this.http.post<Memorial>(this.apiUrl, memorialData, this.getHeaders());

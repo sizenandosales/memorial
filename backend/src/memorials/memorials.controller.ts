@@ -49,6 +49,22 @@ export class MemorialsController {
     return this.memorialsService.findAll(userId);
   }
 
+  // ROTAS ESPECÍFICAS COM :id DEVEM VIR ANTES DA ROTA GENÉRICA :slug
+  @Get(':id/approved-messages')
+  async getApprovedMessages(@Param('id') id: string) {
+    return this.memorialsService.getApprovedMessages(id);
+  }
+
+  // Rota pública para o visitante enviar mensagem no mural do memorial
+  @Post(':id/messages')
+  async createVisitorMessage(
+    @Param('id') id: string,
+    @Body() body: { visitorName: string; message: string },
+  ) {
+    return this.memorialsService.createVisitorMessage(id, body);
+  }
+
+  // Rota dinâmica genérica por slug vem depois
   @Get(':slug')
   async findOne(@Param('slug') slug: string) {
     return this.memorialsService.findOne(slug);

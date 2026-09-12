@@ -1,9 +1,11 @@
 <div class="landing-container">
   <!-- HEADER / NAVBAR -->
   <header class="navbar">
-    <div class="logo">
-      <span class="logo-icon">🕊️</span>
-      <span class="logo-text">Memorial Eterno</span>
+    <h1>MEU ARQUIVO REAL ESTOU AQUI</h1>
+    <div class="logo-container">
+      <a routerLink="/" class="logo-link">
+        <img src="assets/mymemologo.png" alt="My Memo - Preservando Memórias" class="brand-logo" />
+      </a>
     </div>
     <nav class="nav-links">
       <a href="#recursos">Como Funciona</a>
@@ -17,150 +19,185 @@
     </div>
   </header>
 
-  <!-- HERO SECTION (O Topo Emocional e Impactante) -->
-  <section class="hero">
-    <div class="hero-content">
-      <span class="badge">Homenagens que o tempo não apaga</span>
-      <h1>Transforme memórias em um legado eterno e inesquecível.</h1>
-      <p class="hero-subtitle">
-        Um espaço digital seguro, elegante e perpétuo para honrar quem você ama. Conecte fotos,
-        histórias e mensagens de carinho através de um QR Code na placa do túmulo ou compartilhe com
-        a família.
-      </p>
-      <div class="hero-cta">
-        <a routerLink="/auth/register" class="btn-main pulse">Criar Memorial Agora (R$ 147)</a>
-        <a href="#vitrine" class="btn-secondary">Ver Exemplos Reais</a>
-      </div>
-      <p class="hero-guarantee">
-        🔒 Garantia de 3 anos de hospedagem segura inclusa • Configuração em minutos
-      </p>
-    </div>
-  </section>
+  <main>
+    <!-- HERO SECTION COM CARROSSEL DINÂMICO E BOX TRANSPARENTE -->
+    <section
+      class="hero"
+      [style.backgroundImage]="'url(' + heroSlides[currentSlideIndex].bgImage + ')'"
+    >
+      <div class="hero-overlay"></div>
 
-  <!-- SEÇÃO DE COMO FUNCIONA (Simplicidade e Clareza) -->
-  <section id="recursos" class="features-section">
-    <div class="section-title">
-      <h2>Como funciona o Memorial Digital?</h2>
-      <p>Simples de criar, emocionante para quem visita e eterno para a história da família.</p>
-    </div>
+      <div class="hero-content">
+        <div class="hero-glass-box">
+          <span class="badge">{{ heroSlides[currentSlideIndex].badge }}</span>
+          <h1>{{ heroSlides[currentSlideIndex].title }}</h1>
+          <p class="hero-subtitle">
+            {{ heroSlides[currentSlideIndex].subtitle }}
+          </p>
+          <div class="hero-cta">
+            <a routerLink="/auth/register" class="btn-main pulse">Criar Memorial Agora (R$ 147)</a>
+            <a href="#vitrine" class="btn-secondary">Ver Exemplos Reais</a>
+          </div>
+          <p class="hero-guarantee">
+            🔒 Garantia de 3 anos de hospedagem segura inclusa • Configuração em minutos
+          </p>
+        </div>
 
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="icon">📝</div>
-        <h3>1. Cadastre e Personalize</h3>
-        <p>
-          Adicione a biografia, as fotos mais marcantes, datas importantes e escolha um layout
-          elegante e respeitoso.
-        </p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">📲</div>
-        <h3>2. Receba o QR Code Exclusivo</h3>
-        <p>
-          Gere o código para fixar na placa do jazigo, lápide ou coroa de flores, permitindo visitas
-          virtuais no próprio cemitério.
-        </p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">💬</div>
-        <h3>3. Mural de Condolências</h3>
-        <p>
-          Amigos e familiares distantes podem acessar de qualquer lugar do mundo para deixar
-          mensagens de afeto e acender velas virtuais.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- VITRINE DE MEMORIAIS (Prova Social Viva) -->
-  <section id="vitrine" class="memorials-showcase">
-    <div class="section-title">
-      <h2>Vidas honradas com carinho e respeito</h2>
-      <p>Conheça alguns exemplos de memoriais criados em nossa plataforma.</p>
-    </div>
-
-    <div class="memorials-grid">
-      <div class="memorial-card" *ngFor="let m of memorialsExample">
-        <div class="memorial-img" [style.backgroundImage]="'url(' + m.image + ')'"></div>
-        <div class="memorial-info">
-          <h3>{{ m.name }}</h3>
-          <span class="dates">{{ m.dates }}</span>
-          <p class="tribute">"{{ m.tribute }}"</p>
-          <span class="view-link">Ver Memorial Completo →</span>
+        <!-- Controles do Carrossel Hero -->
+        <div class="hero-controls">
+          <button (click)="prevSlide()" class="carousel-btn" aria-label="Slide anterior">
+            &#10094;
+          </button>
+          <div class="carousel-dots">
+            <span
+              *ngFor="let slide of heroSlides; let i = index"
+              [class.active]="i === currentSlideIndex"
+              (click)="setSlide(i)"
+              aria-label="Ir para slide"
+            ></span>
+          </div>
+          <button (click)="nextSlide()" class="carousel-btn" aria-label="Próximo slide">
+            &#10095;
+          </button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- SEÇÃO DE BENEFÍCIOS (Quebrando Objeções) -->
-  <section id="beneficios" class="benefits-section">
-    <div class="benefits-container">
-      <div class="benefits-text">
-        <h2>Por que escolher o Memorial Eterno?</h2>
-        <ul>
-          <li>
-            <strong>Durabilidade Garantida:</strong> 3 anos de hospedagem segura na nuvem inclusa,
-            sem taxas surpresas.
-          </li>
-          <li>
-            <strong>Privacidade e Controle:</strong> Você decide se o memorial é público para todos
-            ou restrito apenas à família através de senha.
-          </li>
-          <li>
-            <strong>Facilidade de Acesso:</strong> Funciona perfeitamente em qualquer celular,
-            tablet ou computador, sem precisar instalar aplicativos.
-          </li>
-          <li>
-            <strong>Suporte Humanizado:</strong> Estamos prontos para ajudar a redigir biografias ou
-            ajustar detalhes com todo o respeito necessário.
-          </li>
-        </ul>
+    <!-- SEÇÃO DE COMO FUNCIONA -->
+    <section id="recursos" class="features-section">
+      <div class="section-title">
+        <h2>Como funciona o My Memo?</h2>
+        <p>Simples de criar, emocionante para quem visita e eterno para a história da família.</p>
       </div>
-      <div class="benefits-box-cta">
-        <h3>Pronto para eternizar uma linda história?</h3>
-        <p>Leva menos de 5 minutos para criar o primeiro memorial.</p>
-        <a routerLink="/auth/register" class="btn-main">Começar Homenagem</a>
-      </div>
-    </div>
-  </section>
 
-  <!-- FAQ / DÚVIDAS FREQUENTES -->
-  <section id="faq" class="faq-section">
-    <div class="section-title">
-      <h2>Dúvidas Frequentes</h2>
-      <p>Tudo o que você precisa saber sobre o serviço.</p>
-    </div>
-    <div class="faq-grid">
-      <div class="faq-item">
-        <h3>O QR Code funciona na chuva e no sol no cemitério?</h3>
-        <p>
-          Sim! Recomendamos gravar o QR Code em placas de acrílico resistente, metal ou adesivos de
-          alta durabilidade próprios para ambientes externos.
-        </p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon">📝</div>
+          <h3>1. Cadastre e Personalize</h3>
+          <p>
+            Adicione a biografia, as fotos mais marcantes, datas importantes e escolha um layout
+            elegante e respeitoso.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📲</div>
+          <h3>2. Receba o QR Code Exclusivo</h3>
+          <p>
+            Gere o código para fixar na placa do jazigo, lápide ou coroa de flores, permitindo
+            visitas virtuais no próprio cemitério.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">💬</div>
+          <h3>3. Mural de Condolências</h3>
+          <p>
+            Amigos e familiares distantes podem acessar de qualquer lugar do mundo para deixar
+            mensagens de afeto e acender velas virtuais.
+          </p>
+        </div>
       </div>
-      <div class="faq-item">
-        <h3>O que acontece após os 3 anos de hospedagem?</h3>
-        <p>
-          Entraremos em contato com antecedência para a renovação opcional por valores acessíveis,
-          garantindo que a memória nunca saia do ar.
-        </p>
+    </section>
+
+    <!-- VITRINE DE MEMORIAIS (Com Perfis Reais e Links por Slug) -->
+    <section id="vitrine" class="memorials-showcase">
+      <div class="section-title">
+        <h2>Vidas honradas com carinho e respeito</h2>
+        <p>Conheça exemplos reais de memoriais criados em nossa plataforma.</p>
       </div>
-      <div class="faq-item">
-        <h3>Posso editar as fotos e textos depois de criar?</h3>
-        <p>
-          Sim, você terá um painel administrativo exclusivo e seguro para atualizar fotos, textos e
-          gerenciar mensagens do mural sempre que desejar.
-        </p>
+
+      <div class="memorials-grid">
+        <a
+          [routerLink]="['/memorial', m.slug]"
+          class="memorial-card"
+          *ngFor="let m of memorialsExample"
+        >
+          <div class="memorial-img-wrapper">
+            <img [src]="m.image" [alt]="m.name" class="memorial-img" />
+          </div>
+          <div class="memorial-info">
+            <h3>{{ m.name }}</h3>
+            <span class="dates">{{ m.dates }}</span>
+            <p class="tribute">"{{ m.tribute }}"</p>
+            <span class="view-link">Ver Memorial Completo &rarr;</span>
+          </div>
+        </a>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- SEÇÃO DE BENEFÍCIOS -->
+    <section id="beneficios" class="benefits-section">
+      <div class="benefits-container">
+        <div class="benefits-text">
+          <h2>Por que escolher o My Memo?</h2>
+          <ul>
+            <li>
+              <strong>Durabilidade Garantida:</strong> 3 anos de hospedagem segura na nuvem inclusa,
+              sem taxas surpresas.
+            </li>
+            <li>
+              <strong>Privacidade e Controle:</strong> Você decide se o memorial é público para
+              todos ou restrito apenas à família.
+            </li>
+            <li>
+              <strong>Facilidade de Acesso:</strong> Funciona perfeitamente em qualquer celular,
+              tablet ou computador, sem instalar aplicativos.
+            </li>
+            <li>
+              <strong>Suporte Humanizado:</strong> Estamos prontos para ajudar a redigir biografias
+              ou ajustar detalhes com todo o respeito.
+            </li>
+          </ul>
+        </div>
+        <div class="benefits-box-cta">
+          <h3>Pronto para eternizar uma linda história?</h3>
+          <p>Leva menos de 5 minutos para criar o primeiro memorial no mymemo.com.br.</p>
+          <a routerLink="/auth/register" class="btn-main">Começar Homenagem</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ / DÚVIDAS FREQUENTES -->
+    <section id="faq" class="faq-section">
+      <div class="section-title">
+        <h2>Dúvidas Frequentes</h2>
+        <p>Tudo o que você precisa saber sobre o serviço.</p>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h3>O QR Code funciona na chuva e no sol no cemitério?</h3>
+          <p>
+            Sim! Recomendamos gravar o QR Code em placas de acrílico resistente, metal ou adesivos
+            de alta durabilidade próprios para ambientes externos.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>O que acontece após os 3 anos de hospedagem?</h3>
+          <p>
+            Entraremos em contato com antecedência para a renovação opcional por valores acessíveis,
+            garantindo que a memória nunca saia do ar.
+          </p>
+        </div>
+        <div class="faq-item">
+          <h3>Posso editar as fotos e textos depois de criar?</h3>
+          <p>
+            Sim, você terá um painel administrativo exclusivo e seguro para atualizar fotos, textos
+            e gerenciar mensagens do mural sempre que desejar.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-logo">
-        <span>🕊️ Memorial Eterno</span>
-        <p>Preservando memórias, confortando corações.</p>
+        <img
+          src="assets/mymemologo.png"
+          alt="My Memo - Preservando Memórias"
+          class="footer-brand-logo"
+        />
+        <p>Preservando Memórias, confortando corações.</p>
       </div>
       <div class="footer-links">
         <a routerLink="/auth/login">Área do Cliente</a>
@@ -169,7 +206,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 Memorial Eterno. Todos os direitos reservados.</p>
+      <p>&copy; 2026 My Memo (mymemo.com.br). Todos os direitos reservados.</p>
     </div>
   </footer>
 </div>

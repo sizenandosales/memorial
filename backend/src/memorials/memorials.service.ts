@@ -24,21 +24,18 @@ export class MemorialsService {
     },
     userId: string,
   ) {
-    // 1. Validar se a foto de perfil foi enviada obrigatoriamente
     if (!files.profilePicture || files.profilePicture.length === 0) {
       throw new BadRequestException(
         'A foto de perfil (profilePicture) é obrigatória.',
       );
     }
 
-    // 2. Fazer o upload da foto de perfil para o Supabase
     const profileFile = files.profilePicture[0];
     const profilePictureUrl = await this.supabaseService.uploadFile(
       profileFile,
       'profiles',
     );
 
-    // 3. Fazer o upload das fotos da galeria (se houver) para o Supabase
     const galleryUrls: string[] = [];
     if (files.gallery && files.gallery.length > 0) {
       for (const image of files.gallery) {
@@ -50,7 +47,6 @@ export class MemorialsService {
       }
     }
 
-    // 4. Gerar um slug amigável e único baseado no nome completo
     const baseSlug = createMemorialDto.fullName
       .toLowerCase()
       .normalize('NFD')
@@ -60,7 +56,6 @@ export class MemorialsService {
 
     const slug = `${baseSlug}-${Date.now().toString().slice(-4)}`;
 
-    // 5. Salvar no Banco de Dados utilizando o Prisma com tratamento correto dos campos
     return this.prisma.memorial.create({
       data: {
         fullName: createMemorialDto.fullName,
@@ -118,7 +113,6 @@ export class MemorialsService {
     });
   }
 
-  // ATUALIZAR O STATUS DO MEMORIAL
   async updateStatus(slug: string, status: string, userId: string) {
     const memorial = await this.findOne(slug);
     if (memorial.userId !== userId)
@@ -130,7 +124,39 @@ export class MemorialsService {
     });
   }
 
-  // --- NOVAS FUNÇÕES DE MODERAÇÃO DE MENSAGENS (Alinhadas ao schema muralMessages) ---
+  // Busca mensagens aprovadas para a página pública
+  async getApprovedMessages(memorialId: string) {
+    return this.prisma.muralMessage.findMany({
+      where: {
+        memorialId: memorialId,
+        status: 'APPROVED',
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  // Cria a mensagem enviada pelo visitante na página pública
+  async createVisitorMessage(
+    memorialId: string,
+    data: { visitorName: string; message: string },
+  ) {
+    const memorial = await this.prisma.memorial.findUnique({
+      where: { id: memorialId },
+    });
+
+    if (!memorial) {
+      throw new NotFoundException('Memorial não encontrado.');
+    }
+
+    return this.prisma.muralMessage.create({
+      data: {
+        memorialId,
+        visitorName: data.visitorName,
+        message: data.message,
+        status: 'PENDING',
+      },
+    });
+  }
 
   async getMessagesBySlug(slug: string, userId: string) {
     const memorial = await this.prisma.memorial.findFirst({
@@ -166,16 +192,12 @@ export class MemorialsService {
     });
   }
 
-  // ------------------------------------------------------------------------------
-
   async remove(slug: string, userId: string) {
     const memorial = await this.findOne(slug);
     if (memorial.userId !== userId)
       throw new ForbiddenException('Sem permissão.');
     return this.prisma.memorial.delete({ where: { slug } });
   }
-
-  // --- Lógica de Galeria ---
 
   async addImage(slug: string, imageUrl: string, userId: string) {
     const memorial = await this.findOne(slug);

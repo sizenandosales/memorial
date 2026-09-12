@@ -39,6 +39,16 @@ export class MemorialService {
     return this.http.get<any[]>(`${this.apiUrl}/memorials/${slug}/messages/all`);
   }
 
+  // Busca mensagens aprovadas para a página pública do memorial
+  getApprovedMessages(memorialId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/memorials/${memorialId}/approved-messages`);
+  }
+
+  // Envia uma nova mensagem de homenagem pelo visitante na página pública
+  sendVisitorMessage(memorialId: string, payload: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/memorials/${memorialId}/messages`, payload);
+  }
+
   // Altera o status de uma mensagem do mural (Aprovar/Rejeitar)
   updateMessageStatus(messageId: string, status: string): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/memorials/messages/${messageId}/status`, {

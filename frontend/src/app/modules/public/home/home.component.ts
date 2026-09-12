@@ -10,29 +10,29 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  // 3 Slides diferentes para o Hero Carrossel com imagens de alta qualidade da web
+  // Slides refinados para o Hero Carrossel com imagens de alta qualidade
   heroSlides = [
     {
-      badge: 'Homenagens que o tempo não apaga',
-      title: 'Transforme memórias em um legado eterno e inesquecível.',
+      badge: 'Legados que o tempo jamais apaga',
+      title: 'Transforme lembranças em um memorial digital eterno.',
       subtitle:
-        'Um espaço digital seguro, elegante e perpétuo para honrar quem você ama. Conecte histórias e fotos através de um QR Code na placa do jazigo.',
+        'Um espaço virtual seguro, elegante e perpétuo para honrar quem você ama. Conecte histórias e fotografias através de um QR Code exclusivo na placa do jazigo.',
       bgImage:
         'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&q=80&w=1920',
     },
     {
-      badge: 'Preservando Memórias com Carinho',
+      badge: 'Preservando Memórias com Profundo Respeito',
       title: 'A perpetuidade da história de quem marcou sua vida.',
       subtitle:
-        'Reúne familiares distantes em um mural de condolências interativo, acenda velas virtuais e mantenha vivo o afeto para as próximas gerações.',
+        'Reúne familiares distantes em um mural interativo de condolências, acenda velas virtuais e mantenha vivo o afeto para as próximas gerações.',
       bgImage:
         'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&w=1920',
     },
     {
-      badge: 'Tecnologia e Emoção Unidas',
+      badge: 'Tecnologia e Emoção em Harmonia',
       title: 'Um memorial acessível por QR Code no cemitério.',
       subtitle:
-        'Placas resistentes para ambientes externos que abrem o memorial digital instantaneamente em qualquer smartphone, sem instalar aplicativos.',
+        'Placas resistentes a intempéries que abrem o memorial digital instantaneamente em qualquer smartphone, sem necessidade de baixar aplicativos.',
       bgImage:
         'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1920',
     },
@@ -41,12 +41,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentSlideIndex = 0;
   private slideInterval: any;
 
-  // Vitrine com os slugs reais fornecidos por você e fotos reais ajustadas
+  // Vitrine restrita exatamente a 4 exemplos destacados
   memorialsExample = [
     {
       name: 'Lázaro Sales',
       dates: '1940 - 2024',
-      tribute: 'Exemplo de dedicação, amor e sabedoria familiar.',
+      tribute: 'Exemplo supremo de dedicação, amor e sabedoria familiar.',
       image:
         'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600',
       slug: 'lazaro-sales-1129',
@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     {
       name: 'São Pio X',
       dates: '1835 - 1914',
-      tribute: 'Restaurar todas as coisas em Cristo.',
+      tribute: 'Restaurar todas as coisas em Cristo com zelo e fé.',
       image:
         'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=600',
       slug: 'sao-pio-x-0190',
@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     {
       name: 'São José',
       dates: 'Patriarca Protetor',
-      tribute: 'Homem justo, guardião de sagradas memórias.',
+      tribute: 'Homem justo, guardião de sagradas memórias e lares.',
       image:
         'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600',
       slug: 'sao-jose-7681',
@@ -70,26 +70,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     {
       name: 'Santo Antônio de Lisboa',
       dates: '1195 - 1231',
-      tribute: 'Doutor evangélico e exemplo de caridade.',
+      tribute: 'Doutor evangélico e eterno exemplo de caridade.',
       image:
         'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600',
       slug: 'santo-antonio-de-lisboa-9485',
-    },
-    {
-      name: 'São Pio V (Antônio Ghislieri)',
-      dates: '1504 - 1572',
-      tribute: 'Firmeza na fé e zelo apostólico.',
-      image:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=600',
-      slug: 'sao-pio-v-antonio-ghislieri-5727',
-    },
-    {
-      name: 'Santa Maria Madalena',
-      dates: 'Testemunha da Esperança',
-      tribute: 'Primeira testemunha da ressurreição e do amor eterno.',
-      image:
-        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600',
-      slug: 'santa-maria-madalena-7188',
     },
   ];
 
@@ -106,7 +90,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   startCarrossel(): void {
     this.slideInterval = setInterval(() => {
       this.nextSlide();
-    }, 6000); // Muda a cada 6 segundos
+    }, 6500);
   }
 
   nextSlide(): void {

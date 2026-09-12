@@ -1,8 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { MemorialService } from '../../services/memorial.service';
 
 @Component({
@@ -15,7 +14,7 @@ import { MemorialService } from '../../services/memorial.service';
 export class MemorialViewComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private memorialService = inject(MemorialService);
-  private http = inject(HttpClient);
+  private cdr = inject(ChangeDetectorRef);
 
   memorial: any = null;
   loading: boolean = true;
@@ -49,11 +48,15 @@ export class MemorialViewComponent implements OnInit {
       next: (data) => {
         this.memorial = data;
         this.loading = false;
+
         if (this.memorial && this.memorial.id) {
-          this.loadApprovedMessages(this.memorial.id);
+          // Usa setTimeout para evitar o erro NG0100 de Change Detection no carregamento inicial
+          setTimeout(() => {
+            this.loadApprovedMessages(this.memorial.id);
+          }, 0);
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Erro ao carregar memorial:', err);
         this.errorMessage = 'Não foi possível encontrar ou carregar as informações deste memorial.';
         this.loading = false;
@@ -62,11 +65,13 @@ export class MemorialViewComponent implements OnInit {
   }
 
   loadApprovedMessages(memorialId: string): void {
-    this.http.get<any[]>(`http://localhost:3000/mural/${memorialId}/messages/approved`).subscribe({
+    this.memorialService.getApprovedMessages(memorialId).subscribe({
       next: (messages) => {
         this.approvedMessages = messages;
+        // Força o Angular a atualizar a tela instantaneamente com as mensagens recebidas
+        this.cdr.detectChanges();
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Erro ao carregar mensagens do mural:', err);
       },
     });
@@ -84,7 +89,7 @@ export class MemorialViewComponent implements OnInit {
       message: this.visitorMessage,
     };
 
-    this.http.post(`http://localhost:3000/mural/${this.memorial.id}/messages`, payload).subscribe({
+    this.memorialService.sendVisitorMessage(this.memorial.id, payload).subscribe({
       next: () => {
         this.messageSubmitting = false;
         this.messageSuccess =
@@ -93,7 +98,7 @@ export class MemorialViewComponent implements OnInit {
         this.visitorMessage = '';
         form.resetForm();
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Erro ao enviar mensagem:', err);
         this.messageSubmitting = false;
         this.messageError = 'Não foi possível enviar sua mensagem. Tente novamente mais tarde.';
