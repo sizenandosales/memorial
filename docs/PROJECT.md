@@ -515,17 +515,11 @@ Descreverá:
 
 > **Como arquivos e armazenamento são tratados.**
 
-### DEVELOPMENT.md
+### DEVELOPMENT-AND-DEPLOYMENT.md
 
 Descreverá:
 
-> **Como executar e desenvolver o projeto.**
-
-### DEPLOYMENT.md
-
-Descreverá:
-
-> **Como o sistema será colocado em produção.**
+> **Como executar e desenvolver o projeto e como o sistema será colocado em produção.**
 
 ### DECISIONS.md
 

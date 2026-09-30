@@ -91,7 +91,8 @@ Existe também estrutura relacionada a usuários.
 
 No desenvolvimento local:
 
-- frontend: `http://localhost:4200`;
+- frontend em desenvolvimento: `http://localhost:4200`;
+- frontend SSR local: `http://localhost:4000`;
 - backend: `http://localhost:3000`;
 - Swagger: `http://localhost:3000/api`.
 
@@ -162,7 +163,7 @@ O Angular utiliza SSR com `AngularNodeAppEngine` e Express. As rotas atuais deve
 
 ## 15. Pontos conhecidos
 
-Existem diferenças entre partes antigas e atuais do código, incluindo serviço antigo de memorial, interceptor legado, divergência no contrato de refresh token e URLs de e-mail configuradas para localhost.
+Existem diferenças entre partes antigas e atuais do código, principalmente no frontend, incluindo serviço antigo de memorial, interceptor legado e componente antigo de criação. Também existem divergências conhecidas no contrato de refresh token e URLs de e-mail configuradas para localhost.
 
 Esses pontos são dívida técnica conhecida e não autorização para alterações automáticas.
 

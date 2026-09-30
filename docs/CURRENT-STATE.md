@@ -259,7 +259,19 @@ APPROVED
 
 ---
 
-## 7. Backend — autenticação
+## 7. Backend — expiração e avisos automáticos
+
+Existe uma rotina agendada (Schedule/Cron) executada diariamente à meia-noite.
+
+A rotina verifica memoriais cuja data `expiresAt` esteja entre a data atual e os próximos 3 dias e envia avisos por e-mail aos responsáveis.
+
+Atualmente, essa rotina possui finalidade exclusiva de aviso de proximidade da expiração.
+
+Ela não bloqueia automaticamente o memorial, não realiza renovação automática e não altera o status do memorial.
+
+---
+
+## 8. Backend — autenticação
 
 O módulo de autenticação está em:
 

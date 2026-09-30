@@ -1,4 +1,6 @@
-# DEVELOPMENT.md — Desenvolvimento Local
+# DEVELOPMENT-AND-DEPLOYMENT.md
+
+## Parte I — Desenvolvimento Local
 
 ## 1. Ambiente
 
@@ -35,7 +37,7 @@ cd C:\dev\memorial\frontend
 npm install
 ```
 
-Executar conforme os scripts existentes no `package.json`. O desenvolvimento local utiliza `http://localhost:4200`.
+Executar conforme os scripts existentes no `package.json`. O desenvolvimento local com Angular utiliza `http://localhost:4200`. Quando o frontend é executado pelo servidor SSR, a porta local padrão é `4000`.
 
 ## 4. Banco e ambiente
 
@@ -75,7 +77,7 @@ Executar comandos um por vez quando houver risco, revisar comandos destrutivos, 
 ## 10. Regra principal
 
 O desenvolvimento deve ser incremental. Nenhuma IA deve reestruturar o projeto inteiro para implementar uma funcionalidade pequena sem justificativa explícita.
-# DEPLOYMENT.md — Produção e Implantação
+## Parte II — Produção e Implantação
 
 ## 1. Objetivo
 
