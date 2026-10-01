@@ -1,0 +1,32 @@
+tree .\backend\src /F > backend-tree.txt
+
+
+tree .\frontend\src /F > frontend-tree.txt
+
+
+
+Extrai todos os arquivos do backend em arquivo unico :
+Rodar no \backend
+
+
+Get-ChildItem -Recurse -File | Where-Object { 
+    $_.Name -ne '.env' -and 
+    $_.FullName -notmatch 'node_modules|dist|\.git|package-lock\.json' 
+} | ForEach-Object {
+    "`n`n=== ARQUIVO: " + $_.FullName + " ===`n"
+    Get-Content $_.FullName -Raw
+} | Out-File -FilePath "..\backend_all_code.txt" -Encoding utf8
+
+Extrai todos os arquivos do backend em arquivo unico :
+Rodar no \frontend
+
+
+cd C:\dev\memorial\frontend
+Get-ChildItem -Recurse -File | Where-Object { 
+    $_.Name -ne '.env' -and 
+    $_.FullName -notmatch 'node_modules|dist|\.git|\.angular|package-lock\.json' 
+} | ForEach-Object {
+    "`n`n=== ARQUIVO: " + $_.FullName + " ===`n"
+    Get-Content $_.FullName -Raw
+} | Out-File -FilePath "..\frontend_all_code.txt" -Encoding utf8
+

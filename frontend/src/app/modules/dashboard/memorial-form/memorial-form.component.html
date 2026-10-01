@@ -3,22 +3,42 @@
     <!-- Cabeçalho Marcante -->
     <div class="form-header">
       <div class="header-icon">🕊️</div>
-      <h1>Criar Novo Memorial</h1>
+      <h1>{{ isEditing ? 'Editar Memorial' : 'Criar Novo Memorial' }}</h1>
       <p>
         Preencha as informações detalhadas e adicione as recordações para eternizar este legado.
       </p>
     </div>
 
     <!-- Alerta de Erro -->
-    <div *ngIf="errorMessage" class="error-banner"><span>⚠️</span> {{ errorMessage }}</div>
+    <div *ngIf="errorMessage" class="error-banner"><span>⚠️️</span> {{ errorMessage }}</div>
 
     <form [formGroup]="memorialForm" (ngSubmit)="onSubmit()">
       <!-- URL Slug -->
       <div class="form-group">
         <label>URL Personalizada (Slug) *</label>
         <div class="input-prefix-group">
-          <span class="prefix">memorialeterno.com.br/</span>
+          <span class="prefix">mymemo.com.br/memorial/</span>
           <input type="text" formControlName="slug" placeholder="nome-da-pessoa" />
+        </div>
+        <!-- Feedback visual de disponibilidade e sugestão de slug -->
+        <div class="slug-feedback mt-2 text-sm" *ngIf="slugStatus">
+          <span *ngIf="slugStatus === 'checking'" class="text-amber-600 font-medium"
+            >Verificando disponibilidade...</span
+          >
+          <span *ngIf="slugStatus === 'available'" class="text-green-600 font-semibold"
+            >✓ Endereço disponível!</span
+          >
+          <div *ngIf="slugStatus === 'taken'" class="text-red-600 font-medium mt-1">
+            <span>✕ Este endereço já está em uso. Mude para outro de sua escolha ou use:</span>
+            <button
+              type="button"
+              class="ml-1 text-indigo-600 underline font-bold hover:text-indigo-800 cursor-pointer"
+              *ngIf="suggestedSlug"
+              (click)="applySuggestion()"
+            >
+              {{ suggestedSlug }}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -59,7 +79,7 @@
       </div>
 
       <!-- Foto de Perfil -->
-      <div class="form-group">
+      <div class="form-group" *ngIf="!isEditing">
         <label>Foto Principal de Perfil *</label>
         <div class="file-drop-area">
           <input
@@ -114,8 +134,14 @@
       <!-- Botões de Ação -->
       <div class="form-actions">
         <button type="button" class="btn-cancel" routerLink="/dashboard">Cancelar</button>
-        <button type="submit" class="btn-save" [disabled]="memorialForm.invalid || loading">
-          {{ loading ? 'Salvando no Sistema...' : 'Criar Memorial' }}
+        <button
+          type="submit"
+          class="btn-save"
+          [disabled]="memorialForm.invalid || loading || slugStatus === 'taken'"
+        >
+          {{
+            loading ? 'Salvando no Sistema...' : isEditing ? 'Salvar Alterações' : 'Criar Memorial'
+          }}
         </button>
       </div>
     </form>

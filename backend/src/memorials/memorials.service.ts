@@ -16,6 +16,40 @@ export class MemorialsService {
     private supabaseService: SupabaseService,
   ) {}
 
+  // Função auxiliar para normalizar e limpar strings para o formato de slug
+  private formatSlug(text: string): string {
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^\w\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-');
+  }
+
+  // Verifica a disponibilidade do slug e retorna uma sugestão caso esteja em uso
+  async checkSlugAvailability(
+    slug: string,
+  ): Promise<{ available: boolean; suggestedSlug?: string }> {
+    const normalizedSlug = this.formatSlug(slug);
+
+    if (!normalizedSlug) {
+      throw new BadRequestException('O slug fornecido é inválido.');
+    }
+
+    const existing = await this.prisma.memorial.findUnique({
+      where: { slug: normalizedSlug },
+    });
+
+    if (!existing) {
+      return { available: true };
+    }
+
+    // Sugere uma alternativa acrescentando o ano atual ou um sufixo numérico seguro
+    const suggestedSlug = `${normalizedSlug}-${new Date().getFullYear()}`;
+    return { available: false, suggestedSlug };
+  }
+
   async create(
     createMemorialDto: CreateMemorialDto,
     files: {
@@ -47,14 +81,25 @@ export class MemorialsService {
       }
     }
 
-    const baseSlug = createMemorialDto.fullName
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-');
+    // Se o usuário informou um slug customizado, usamo-lo; caso contrário, geramos a partir do fullName
+    const rawSlug =
+      createMemorialDto.slug && createMemorialDto.slug.trim() !== ''
+        ? createMemorialDto.slug
+        : createMemorialDto.fullName;
 
-    const slug = `${baseSlug}-${Date.now().toString().slice(-4)}`;
+    const slug = this.formatSlug(rawSlug);
+
+    // Valida se o slug gerado já existe no banco de dados para evitar duplicidade e erros 500
+    const existingMemorial = await this.prisma.memorial.findUnique({
+      where: { slug },
+    });
+
+    if (existingMemorial) {
+      const suggestedSlug = `${slug}-${new Date().getFullYear()}`;
+      throw new BadRequestException(
+        `Este endereço já está em uso. Mude para outro de sua escolha ou use: ${suggestedSlug}`,
+      );
+    }
 
     return this.prisma.memorial.create({
       data: {
@@ -107,9 +152,28 @@ export class MemorialsService {
     const memorial = await this.findOne(slug);
     if (memorial.userId !== userId)
       throw new ForbiddenException('Sem permissão.');
+
+    // Se o slug estiver sendo atualizado, limpamos e verificamos unicidade
+    let dataToUpdate: any = { ...updateMemorialDto };
+    if (updateMemorialDto.slug) {
+      const newSlug = this.formatSlug(updateMemorialDto.slug);
+      if (newSlug !== memorial.slug) {
+        const conflict = await this.prisma.memorial.findUnique({
+          where: { slug: newSlug },
+        });
+        if (conflict) {
+          const suggestedSlug = `${newSlug}-${new Date().getFullYear()}`;
+          throw new BadRequestException(
+            `Este endereço já está em uso. Mude para outro de sua escolha ou use: ${suggestedSlug}`,
+          );
+        }
+        dataToUpdate.slug = newSlug;
+      }
+    }
+
     return this.prisma.memorial.update({
       where: { slug },
-      data: updateMemorialDto,
+      data: dataToUpdate,
     });
   }
 
@@ -124,7 +188,6 @@ export class MemorialsService {
     });
   }
 
-  // Busca mensagens aprovadas para a página pública
   async getApprovedMessages(memorialId: string) {
     return this.prisma.muralMessage.findMany({
       where: {
@@ -135,7 +198,6 @@ export class MemorialsService {
     });
   }
 
-  // Cria a mensagem enviada pelo visitante na página pública
   async createVisitorMessage(
     memorialId: string,
     data: { visitorName: string; message: string },

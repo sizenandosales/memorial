@@ -49,7 +49,13 @@ export class MemorialsController {
     return this.memorialsService.findAll(userId);
   }
 
-  // ROTAS ESPECÍFICAS COM :id DEVEM VIR ANTES DA ROTA GENÉRICA :slug
+  // Rota de verificação de slug (Deve vir ANTES de rotas genéricas como :slug)
+  @Get('check-slug/:slug')
+  async checkSlug(@Param('slug') slug: string) {
+    return this.memorialsService.checkSlugAvailability(slug);
+  }
+
+  // Rotas específicas com parâmetros fixos ou IDs devem vir antes da rota genérica :slug
   @Get(':id/approved-messages')
   async getApprovedMessages(@Param('id') id: string) {
     return this.memorialsService.getApprovedMessages(id);

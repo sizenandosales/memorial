@@ -49,6 +49,13 @@ export class MemorialService {
     return this.http.post<any>(`${this.apiUrl}/memorials/${memorialId}/messages`, payload);
   }
 
+  // Verifica se o slug já está em uso no backend
+  checkSlugAvailability(slug: string): Observable<{ available: boolean; suggestedSlug?: string }> {
+    return this.http.get<{ available: boolean; suggestedSlug?: string }>(
+      `${this.apiUrl}/memorials/check-slug/${slug}`,
+    );
+  }
+
   // Altera o status de uma mensagem do mural (Aprovar/Rejeitar)
   updateMessageStatus(messageId: string, status: string): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/memorials/messages/${messageId}/status`, {

@@ -1,0 +1,3052 @@
+﻿
+
+=== ARQUIVO: C:\dev\memorial\backend\.prettierrc ===
+
+{
+  "singleQuote": true,
+  "trailingComma": "all"
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\eslint.config.mjs ===
+
+// @ts-check
+import eslint from '@eslint/js';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+
+export default tseslint.config(
+  {
+    ignores: ['eslint.config.mjs'],
+  },
+  eslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  eslintPluginPrettierRecommended,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
+      sourceType: 'commonjs',
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-floating-promises': 'warn',
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      "prettier/prettier": ["error", { endOfLine: "auto" }],
+    },
+  },
+);
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\nest-cli.json ===
+
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "deleteOutDir": true
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\package.json ===
+
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
+  },
+  "dependencies": {
+    "@nestjs-modules/mailer": "^2.3.7",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.4",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/mapped-types": "*",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/schedule": "^6.1.3",
+    "@nestjs/swagger": "^11.4.5",
+    "@nestjs/throttler": "^6.5.0",
+    "@prisma/client": "^6.19.3",
+    "@supabase/supabase-js": "^2.110.8",
+    "bcrypt": "^6.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "helmet": "^8.2.0",
+    "multer": "^2.2.0",
+    "nodemailer": "^9.0.3",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "swagger-ui-express": "^5.0.1",
+    "validator": "^13.15.35"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.18.0",
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/testing": "^11.0.1",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cron": "^2.0.1",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^30.0.0",
+    "@types/multer": "^2.2.0",
+    "@types/node": "^24.0.0",
+    "@types/nodemailer": "^8.0.1",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/supertest": "^7.0.0",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
+    "globals": "^17.0.0",
+    "jest": "^30.0.0",
+    "prettier": "^3.4.2",
+    "prisma": "^6.19.3",
+    "source-map-support": "^0.5.21",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\README.md ===
+
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+</p>
+
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
+
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+
+## Description
+
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+
+## Project setup
+
+```bash
+$ npm install
+```
+
+## Compile and run the project
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
+## Run tests
+
+```bash
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:cov
+```
+
+## Deployment
+
+When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+
+If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+
+```bash
+$ npm install -g @nestjs/mau
+$ mau deploy
+```
+
+With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+
+## Resources
+
+Check out a few resources that may come in handy when working with NestJS:
+
+- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
+- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
+- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
+- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
+- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
+- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
+- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
+- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+
+## Support
+
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+
+## Stay in touch
+
+- Author - [Kamil MyÅ›liwiec](https://twitter.com/kammysliwiec)
+- Website - [https://nestjs.com](https://nestjs.com/)
+- Twitter - [@nestframework](https://twitter.com/nestframework)
+
+## License
+
+Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\teste_porta.js ===
+
+fetch('https://bbeructbqaafuwecvoxd.supabase.co')
+  .then((res) => console.log('Sucesso! Status:', res.status))
+  .catch((err) => console.error('Erro de Fetch:', err.message));
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\tsconfig.build.json ===
+
+{
+  "extends": "./tsconfig.json",
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\tsconfig.json ===
+
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "types": ["node", "multer"],
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\prisma\schema.prisma ===
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String     @id @default(uuid())
+  name                 String
+  email                String     @unique
+  password             String
+  role                 String     @default("USER")
+  createdAt            DateTime   @default(now())
+  bairro               String
+  cep                  String
+  cidade               String
+  complemento          String?
+  document             String     @unique
+  logradouro           String
+  numero               String
+  phone                String?
+  refreshToken         String?
+  uf                   String
+  updatedAt            DateTime   @updatedAt
+  isVerified           Boolean    @default(false)
+  verificationToken    String?    @unique
+  resetPasswordExpires DateTime?
+  resetPasswordToken   String?
+  memorials            Memorial[]
+}
+
+model Partner {
+  id         String     @id @default(uuid())
+  name       String
+  cpfCnpj    String     @unique
+  email      String     @unique
+  password   String
+  role       String     @default("PARTNER")
+  totalSales Float      @default(0.0)
+  createdAt  DateTime   @default(now())
+  memorials  Memorial[]
+}
+
+model Memorial {
+  id             String         @id @default(uuid())
+  slug           String         @unique
+  fullName       String
+  birthDate      DateTime
+  deathDate      DateTime
+  birthCity      String
+  deathCity      String
+  cemetery       String
+  biography      String
+  profilePicture String
+  gallery        String[]
+  status         String         @default("PENDING")
+  expiresAt      DateTime?
+  createdAt      DateTime       @default(now())
+  userId         String?
+  partnerId      String?
+  partner        Partner?       @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  user           User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  muralMessages  MuralMessage[]
+}
+
+model MuralMessage {
+  id          String   @id @default(uuid())
+  visitorName String
+  message     String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  memorialId  String
+  memorial    Memorial @relation(fields: [memorialId], references: [id], onDelete: Cascade)
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\prisma\migrations\migration_lock.toml ===
+
+# Please do not edit this file manually
+# It should be added in your version-control system (e.g., Git)
+provider = "postgresql"
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\prisma\migrations\schema-prisma-copia.txt ===
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String     @id @default(uuid())
+  name        String
+  email       String     @unique
+  password    String
+  role        String     @default("USER")
+  createdAt   DateTime   @default(now())
+  bairro      String
+  cep         String
+  cidade      String
+  complemento String?
+  document    String     @unique
+  logradouro  String
+  numero      String
+  phone       String?
+  uf          String
+  updatedAt   DateTime   @updatedAt
+  memorials   Memorial[]
+}
+
+model Partner {
+  id         String     @id @default(uuid())
+  name       String
+  cpfCnpj    String     @unique
+  email      String     @unique
+  password   String
+  role       String     @default("PARTNER")
+  totalSales Float      @default(0.0)
+  createdAt  DateTime   @default(now())
+  memorials  Memorial[]
+}
+
+model Memorial {
+  id             String         @id @default(uuid())
+  slug           String         @unique
+  fullName       String
+  birthDate      DateTime
+  deathDate      DateTime
+  birthCity      String
+  deathCity      String
+  cemetery       String
+  biography      String
+  profilePicture String
+  gallery        String[]
+  status         String         @default("PENDING")
+  expiresAt      DateTime?
+  createdAt      DateTime       @default(now())
+  userId         String?
+  partnerId      String?
+  partner        Partner?       @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  user           User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  muralMessages  MuralMessage[]
+}
+
+model MuralMessage {
+  id          String   @id @default(uuid())
+  visitorName String
+  message     String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  memorialId  String
+  memorial    Memorial @relation(fields: [memorialId], references: [id], onDelete: Cascade)
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\prisma\migrations\20260620020956_criacao_tabelas_iniciais\migration.sql ===
+
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "cpf" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'USER',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Partner" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "cpfCnpj" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'PARTNER',
+    "totalSales" DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Partner_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Memorial" (
+    "id" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "fullName" TEXT NOT NULL,
+    "birthDate" TIMESTAMP(3) NOT NULL,
+    "deathDate" TIMESTAMP(3) NOT NULL,
+    "birthCity" TEXT NOT NULL,
+    "deathCity" TEXT NOT NULL,
+    "cemetery" TEXT NOT NULL,
+    "biography" TEXT NOT NULL,
+    "profilePicture" TEXT NOT NULL,
+    "gallery" TEXT[],
+    "status" TEXT NOT NULL DEFAULT 'PENDING',
+    "expiresAt" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "userId" TEXT,
+    "partnerId" TEXT,
+
+    CONSTRAINT "Memorial_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "MuralMessage" (
+    "id" TEXT NOT NULL,
+    "visitorName" TEXT NOT NULL,
+    "message" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'PENDING',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "memorialId" TEXT NOT NULL,
+
+    CONSTRAINT "MuralMessage_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_cpf_key" ON "User"("cpf");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Partner_cpfCnpj_key" ON "Partner"("cpfCnpj");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Partner_email_key" ON "Partner"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Memorial_slug_key" ON "Memorial"("slug");
+
+-- AddForeignKey
+ALTER TABLE "Memorial" ADD CONSTRAINT "Memorial_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Memorial" ADD CONSTRAINT "Memorial_partnerId_fkey" FOREIGN KEY ("partnerId") REFERENCES "Partner"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MuralMessage" ADD CONSTRAINT "MuralMessage_memorialId_fkey" FOREIGN KEY ("memorialId") REFERENCES "Memorial"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\prisma\migrations\20260711201649_init\migration.sql ===
+
+/*
+  Warnings:
+
+  - You are about to drop the column `cpf` on the `User` table. All the data in the column will be lost.
+  - A unique constraint covering the columns `[document]` on the table `User` will be added. If there are existing duplicate values, this will fail.
+  - Added the required column `bairro` to the `User` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `cep` to the `User` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `cidade` to the `User` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `document` to the `User` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `logradouro` to the `User` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `numero` to the `User` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `uf` to the `User` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `updatedAt` to the `User` table without a default value. This is not possible if the table is not empty.
+
+*/
+-- DropIndex
+DROP INDEX "User_cpf_key";
+
+-- AlterTable
+ALTER TABLE "User" DROP COLUMN "cpf",
+ADD COLUMN     "bairro" TEXT NOT NULL,
+ADD COLUMN     "cep" TEXT NOT NULL,
+ADD COLUMN     "cidade" TEXT NOT NULL,
+ADD COLUMN     "complemento" TEXT,
+ADD COLUMN     "document" TEXT NOT NULL,
+ADD COLUMN     "logradouro" TEXT NOT NULL,
+ADD COLUMN     "numero" TEXT NOT NULL,
+ADD COLUMN     "phone" TEXT,
+ADD COLUMN     "refreshToken" TEXT,
+ADD COLUMN     "uf" TEXT NOT NULL,
+ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL;
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_document_key" ON "User"("document");
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\prisma\migrations\20260715215527_add_email_verification\migration.sql ===
+
+/*
+  Warnings:
+
+  - A unique constraint covering the columns `[verificationToken]` on the table `User` will be added. If there are existing duplicate values, this will fail.
+
+*/
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "isVerified" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "verificationToken" TEXT;
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_verificationToken_key" ON "User"("verificationToken");
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\prisma\migrations\20260718162915_add_reset_password_fields\migration.sql ===
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "resetPasswordExpires" TIMESTAMP(3),
+ADD COLUMN     "resetPasswordToken" TEXT;
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\app.controller.spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
+describe('AppController', () => {
+  let appController: AppController;
+
+  beforeEach(async () => {
+    const app: TestingModule = await Test.createTestingModule({
+      controllers: [AppController],
+      providers: [AppService],
+    }).compile();
+
+    appController = app.get<AppController>(AppController);
+  });
+
+  describe('root', () => {
+    it('should return "Hello World!"', () => {
+      expect(appController.getHello()).toBe('Hello World!');
+    });
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\app.controller.ts ===
+
+import { Controller, Get } from '@nestjs/common';
+
+@Controller()
+export class AppController {
+  @Get()
+  getHello(): string {
+    return 'Memorial SaaS API - Rodando com Sucesso! ðŸš€';
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\app.module.ts ===
+
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config'; // Importante para carregar o .env
+import { ScheduleModule } from '@nestjs/schedule';
+import { PrismaModule } from './prisma/prisma.module';
+import { MemorialsModule } from './memorials/memorials.module';
+import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
+import { TasksModule } from './tasks/tasks.module';
+import { MuralMessagesModule } from './mural-messages/mural-messages.module';
+import { SupabaseModule } from './supabase/supabase.module';
+
+@Module({
+  imports: [
+    // Carrega o .env globalmente para que todos os mÃ³dulos acessem as variÃ¡veis
+    ConfigModule.forRoot({ isGlobal: true }),
+
+    // Habilita o agendamento de tarefas (Cron Jobs) globalmente
+    ScheduleModule.forRoot(),
+
+    // MÃ³dulos principais da sua aplicaÃ§Ã£o
+    PrismaModule,
+    MemorialsModule,
+    AuthModule,
+    MailModule,
+    MuralMessagesModule,
+    TasksModule,
+    SupabaseModule,
+  ],
+  controllers: [],
+  providers: [],
+})
+export class AppModule {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\app.service.ts ===
+
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class AppService {
+  getHello(): string {
+    return 'Hello World!';
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\main.ts ===
+
+import 'dotenv/config'; // Carrega as variÃ¡veis de ambiente do arquivo .env
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  // --- HABILITAR CORS ---
+  app.enableCors({
+    origin: 'http://localhost:4200',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+
+  // 1. Filtro global
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  // 2. Pipe de validaÃ§Ã£o
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  // --- CONFIGURAÃ‡ÃƒO DO SWAGGER ---
+  const config = new DocumentBuilder()
+    .setTitle('API Memorial Digital')
+    .setDescription('DocumentaÃ§Ã£o dos endpoints da API de Memoriais')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+  // O Swagger estarÃ¡ acessÃ­vel em: http://localhost:3000/api
+  // -------------------------------
+
+  await app.listen(3000);
+  console.log('Servidor rodando na porta 3000');
+}
+
+bootstrap();
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\maints_anterior.txt ===
+
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  // --- HABILITAR CORS ---
+  app.enableCors({
+    origin: 'http://localhost:4200',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+
+  // 1. Filtro global
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  // 2. Pipe de validaÃ§Ã£o
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  // --- CONFIGURAÃ‡ÃƒO DO SWAGGER ---
+  const config = new DocumentBuilder()
+    .setTitle('API Memorial Digital')
+    .setDescription('DocumentaÃ§Ã£o dos endpoints da API de Memoriais')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+  // O Swagger estarÃ¡ acessÃ­vel em: http://localhost:3000/api
+  // -------------------------------
+
+  await app.listen(3000);
+  console.log('Servidor rodando na porta 3000');
+}
+
+bootstrap();
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\auth\auth.controller.ts ===
+
+import {
+  Controller,
+  Post,
+  Body,
+  UnauthorizedException,
+  Get,
+  Query,
+} from '@nestjs/common';
+import { AuthService } from './auth.service';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('login')
+  async login(@Body() body: { email: string; password: string }) {
+    return this.authService.login(body);
+  }
+
+  @Post('refresh')
+  async refresh(@Body() body: { userId: string; refreshToken: string }) {
+    if (!body.userId || !body.refreshToken) {
+      throw new UnauthorizedException('Dados incompletos para refresh');
+    }
+    return this.authService.refresh(body.userId, body.refreshToken);
+  }
+
+  @Post('register')
+  async register(@Body() userData: any) {
+    return this.authService.register(userData);
+  }
+
+  @Get('verify')
+  async verify(@Query('token') token: string) {
+    if (!token) {
+      throw new UnauthorizedException('Token de verificaÃ§Ã£o ausente');
+    }
+    return this.authService.verifyEmail(token);
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body('email') email: string) {
+    return this.authService.forgotPassword(email);
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() body: { token: string; newPassword: string }) {
+    if (!body.token || !body.newPassword) {
+      throw new UnauthorizedException('Token e nova senha sÃ£o obrigatÃ³rios');
+    }
+    return this.authService.resetPassword(body.token, body.newPassword);
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\auth\auth.module.ts ===
+
+import { Module } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UsersModule } from '../users/users.module';
+import { MailModule } from '../mail/mail.module';
+
+@Module({
+  imports: [
+    ConfigModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    UsersModule,
+    MailModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '60m' },
+      }),
+    }),
+  ],
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy],
+  exports: [AuthService],
+})
+export class AuthModule {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\auth\auth.service.spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { AuthService } from './auth.service';
+
+describe('AuthService', () => {
+  let service: AuthService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [AuthService],
+    }).compile();
+
+    service = module.get<AuthService>(AuthService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\auth\auth.service.ts ===
+
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import { MailService } from '../mail/mail.service';
+import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
+import { PrismaService } from '../prisma/prisma.service';
+
+@Injectable()
+export class AuthService {
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+    private mailService: MailService,
+    private prisma: PrismaService,
+  ) {}
+
+  async register(userData: any) {
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+
+    const user = await this.usersService.create({
+      ...userData,
+      isVerified: false,
+      verificationToken: verificationToken,
+    });
+
+    await this.mailService.sendVerificationEmail(user.email, verificationToken);
+
+    const { password, verificationToken: token, ...result } = user;
+    return result;
+  }
+
+  async login(credentials: { email: string; password: string }) {
+    const { email, password } = credentials;
+
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new UnauthorizedException('Credenciais invÃ¡lidas');
+    }
+
+    if (!user.isVerified) {
+      throw new UnauthorizedException(
+        'Por favor, confirme seu e-mail antes de acessar.',
+      );
+    }
+
+    return this.generateTokens(user.id, user.email, user.role);
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      return {
+        message:
+          'Se o e-mail estiver cadastrado, enviamos o link de recuperaÃ§Ã£o.',
+      };
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const expires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutos
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        resetPasswordToken: token,
+        resetPasswordExpires: expires,
+      },
+    });
+
+    await this.mailService.sendResetPasswordEmail(user.email, token);
+
+    return {
+      message:
+        'Se o e-mail estiver cadastrado, enviamos o link de recuperaÃ§Ã£o.',
+    };
+  }
+
+  async resetPassword(token: string, newPassword: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        resetPasswordToken: token,
+        resetPasswordExpires: { gt: new Date() },
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Token invÃ¡lido ou expirado.');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      },
+    });
+
+    return { message: 'Senha alterada com sucesso!' };
+  }
+
+  async verifyEmail(token: string) {
+    const user = await this.prisma.user.findFirst({
+      where: { verificationToken: token },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Token invÃ¡lido ou expirado.');
+    }
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: {
+        isVerified: true,
+        verificationToken: null,
+      },
+    });
+
+    return {
+      message: 'E-mail verificado com sucesso! VocÃª jÃ¡ pode fazer login.',
+    };
+  }
+
+  async generateTokens(userId: string, email: string, role: string) {
+    const payload = { sub: userId, email, role };
+
+    const access_token = this.jwtService.sign(payload, { expiresIn: '15m' });
+    const refresh_token = this.jwtService.sign(payload, { expiresIn: '7d' });
+
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(refresh_token, salt);
+
+    await this.usersService.updateRefreshToken(userId, hash);
+
+    return { access_token, refresh_token };
+  }
+
+  async refresh(userId: string, refreshToken: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user || !user.refreshToken) {
+      throw new UnauthorizedException('Acesso negado');
+    }
+
+    const isMatch = await bcrypt.compare(refreshToken, user.refreshToken);
+    if (!isMatch) {
+      throw new UnauthorizedException('Acesso negado');
+    }
+
+    return this.generateTokens(user.id, user.email, user.role);
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\auth\jwt-auth.guard.ts ===
+
+import { Injectable } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
+@Injectable()
+export class JwtAuthGuard extends AuthGuard('jwt') {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\auth\jwt.strategy.ts ===
+
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { PassportStrategy } from '@nestjs/passport';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor(private configService: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: configService.get<string>('JWT_SECRET')!,
+    });
+  }
+
+  async validate(payload: any) {
+    // Retornar apenas o necessÃ¡rio. O NestJS injetarÃ¡ isso em 'request.user'
+    return { id: payload.sub, email: payload.email, role: payload.role };
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\auth\decorators\roles.decorator.ts ===
+
+import { SetMetadata } from '@nestjs/common';
+
+export const ROLES_KEY = 'roles';
+export const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\auth\guards\roles.guard.ts ===
+
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { ROLES_KEY } from '../decorators/roles.decorator';
+
+@Injectable()
+export class RolesGuard implements CanActivate {
+  constructor(private reflector: Reflector) {}
+
+  canActivate(context: ExecutionContext): boolean {
+    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
+      ROLES_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+
+    if (!requiredRoles) {
+      return true;
+    }
+
+    const { user } = context.switchToHttp().getRequest();
+
+    return requiredRoles.includes(user?.role);
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\filters\http-exception.filter.ts ===
+
+// src/filters/http-exception.filter.ts
+import {
+  ExceptionFilter,
+  Catch,
+  ArgumentsHost,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
+import { Response } from 'express';
+
+@Catch(HttpException)
+export class HttpExceptionFilter implements ExceptionFilter {
+  catch(exception: HttpException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+    const status = exception.getStatus();
+    const exceptionResponse = exception.getResponse();
+
+    // Extrai a mensagem de erro (se for um objeto com 'message', pega ela, se nÃ£o, usa a prÃ³pria resposta)
+    const message = (exceptionResponse as any).message || exceptionResponse;
+
+    response.status(status).json({
+      statusCode: status,
+      timestamp: new Date().toISOString(),
+      message: message, // Aqui o front-end recebe a mensagem amigÃ¡vel
+    });
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\mail\mail.module.ts ===
+
+import { Module } from '@nestjs/common';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { MailService } from './mail.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
+@Module({
+  imports: [
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        transport: {
+          host: configService.get('MAIL_HOST'),
+          port: configService.get('MAIL_PORT'),
+          auth: {
+            user: configService.get('MAIL_USER'),
+            pass: configService.get('MAIL_PASS'),
+          },
+        },
+        defaults: {
+          from: '"Memorial System" <noreply@memorial.com>',
+        },
+      }),
+    }),
+  ],
+  providers: [MailService],
+  exports: [MailService],
+})
+export class MailModule {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\mail\mail.service.spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { MailService } from './mail.service';
+
+describe('MailService', () => {
+  let service: MailService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [MailService],
+    }).compile();
+
+    service = module.get<MailService>(MailService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\mail\mail.service.ts ===
+
+import { Injectable } from '@nestjs/common';
+import { MailerService } from '@nestjs-modules/mailer';
+
+@Injectable()
+export class MailService {
+  constructor(private readonly mailerService: MailerService) {}
+
+  // Funcionalidade existente
+  async sendExpirationWarning(email: string, memorialName: string) {
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Aviso de ExpiraÃ§Ã£o de Memorial',
+      text: `OlÃ¡, o memorial ${memorialName} estÃ¡ prestes a expirar em 3 dias. Por favor, verifique sua conta.`,
+    });
+  }
+
+  // Funcionalidade existente
+  async sendVerificationEmail(email: string, token: string) {
+    const url = `http://localhost:3000/auth/verify?token=${token}`;
+
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Confirme seu cadastro no Memorial Digital',
+      html: `
+        <h1>Bem-vindo ao Memorial Digital!</h1>
+        <p>Para concluir seu cadastro e ativar sua conta, clique no link abaixo:</p>
+        <a href="${url}" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Confirmar meu e-mail</a>
+        <p>Se vocÃª nÃ£o solicitou este cadastro, por favor, ignore este e-mail.</p>
+      `,
+    });
+  }
+
+  // Funcionalidade de recuperaÃ§Ã£o de senha (URL corrigida para o endpoint POST correto)
+  async sendResetPasswordEmail(email: string, token: string) {
+    const url = `http://localhost:3000/auth/reset-password?token=${token}`;
+
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'RecuperaÃ§Ã£o de Senha',
+      html: `
+        <h1>RecuperaÃ§Ã£o de Senha</h1>
+        <p>Recebemos uma solicitaÃ§Ã£o para redefinir sua senha.</p>
+        <p>Para criar uma nova senha, clique no botÃ£o abaixo:</p>
+        <a href="${url}" style="padding: 10px 20px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px;">Redefinir minha senha</a>
+        <p>Este link expirarÃ¡ em 15 minutos. Se vocÃª nÃ£o solicitou esta alteraÃ§Ã£o, ignore este e-mail.</p>
+      `,
+    });
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\memorials\memorials-controller-ts.txt ===
+
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+  UseInterceptors,
+  UploadedFiles,
+} from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { MemorialsService } from './memorials.service';
+import { CreateMemorialDto } from './dto/create-memorial.dto';
+import { UpdateMemorialDto } from './dto/update-memorial.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+
+@Controller('memorials')
+export class MemorialsController {
+  constructor(private readonly memorialsService: MemorialsService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'profilePicture', maxCount: 1 },
+      { name: 'gallery', maxCount: 10 },
+    ]),
+  )
+  async create(
+    @Body() createMemorialDto: CreateMemorialDto,
+    @UploadedFiles()
+    files: {
+      profilePicture?: Express.Multer.File[];
+      gallery?: Express.Multer.File[];
+    },
+    @Request() req,
+  ) {
+    const userId = req.user.id;
+    return this.memorialsService.create(createMemorialDto, files, userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async findAll(@Request() req) {
+    const userId = req.user.id;
+    return this.memorialsService.findAll(userId);
+  }
+
+  @Get(':slug')
+  async findOne(@Param('slug') slug: string) {
+    return this.memorialsService.findOne(slug);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':slug')
+  async update(
+    @Param('slug') slug: string,
+    @Body() updateMemorialDto: UpdateMemorialDto,
+    @Request() req,
+  ) {
+    const userId = req.user.id;
+    return this.memorialsService.update(slug, updateMemorialDto, userId);
+  }
+
+  // ATUALIZAR STATUS DO MEMORIAL (ATIVAR/PENDENTE)
+  @UseGuards(JwtAuthGuard)
+  @Patch(':slug/status')
+  async updateStatus(
+    @Param('slug') slug: string,
+    @Body('status') status: string,
+    @Request() req,
+  ) {
+    const userId = req.user.id;
+    return this.memorialsService.updateStatus(slug, status, userId);
+  }
+
+  // --- NOVAS ROTAS DE MENSAGENS PARA MODERAÃ‡ÃƒO ---
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':slug/messages/all')
+  async getMemorialMessagesForModeration(
+    @Param('slug') slug: string,
+    @Request() req,
+  ) {
+    const userId = req.user.id;
+    return this.memorialsService.getMessagesBySlug(slug, userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('messages/:id/status')
+  async updateMessageStatus(
+    @Param('id') id: string,
+    @Body('status') status: string,
+  ) {
+    return this.memorialsService.updateMessageStatus(id, status);
+  }
+
+  // ----------------------------------------------
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':slug')
+  async remove(@Param('slug') slug: string, @Request() req) {
+    const userId = req.user.id;
+    return this.memorialsService.remove(slug, userId);
+  }
+}
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\memorials\memorials.controller.spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { MemorialsController } from './memorials.controller';
+
+describe('MemorialsController', () => {
+  let controller: MemorialsController;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [MemorialsController],
+    }).compile();
+
+    controller = module.get<MemorialsController>(MemorialsController);
+  });
+
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\memorials\memorials.controller.ts ===
+
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+  UseInterceptors,
+  UploadedFiles,
+} from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { MemorialsService } from './memorials.service';
+import { CreateMemorialDto } from './dto/create-memorial.dto';
+import { UpdateMemorialDto } from './dto/update-memorial.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+
+@Controller('memorials')
+export class MemorialsController {
+  constructor(private readonly memorialsService: MemorialsService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'profilePicture', maxCount: 1 },
+      { name: 'gallery', maxCount: 10 },
+    ]),
+  )
+  async create(
+    @Body() createMemorialDto: CreateMemorialDto,
+    @UploadedFiles()
+    files: {
+      profilePicture?: Express.Multer.File[];
+      gallery?: Express.Multer.File[];
+    },
+    @Request() req,
+  ) {
+    const userId = req.user.id;
+    return this.memorialsService.create(createMemorialDto, files, userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async findAll(@Request() req) {
+    const userId = req.user.id;
+    return this.memorialsService.findAll(userId);
+  }
+
+  // Rota de verificaÃ§Ã£o de slug (Deve vir ANTES de rotas genÃ©ricas como :slug)
+  @Get('check-slug/:slug')
+  async checkSlug(@Param('slug') slug: string) {
+    return this.memorialsService.checkSlugAvailability(slug);
+  }
+
+  // Rotas especÃ­ficas com parÃ¢metros fixos ou IDs devem vir antes da rota genÃ©rica :slug
+  @Get(':id/approved-messages')
+  async getApprovedMessages(@Param('id') id: string) {
+    return this.memorialsService.getApprovedMessages(id);
+  }
+
+  // Rota pÃºblica para o visitante enviar mensagem no mural do memorial
+  @Post(':id/messages')
+  async createVisitorMessage(
+    @Param('id') id: string,
+    @Body() body: { visitorName: string; message: string },
+  ) {
+    return this.memorialsService.createVisitorMessage(id, body);
+  }
+
+  // Rota dinÃ¢mica genÃ©rica por slug vem depois
+  @Get(':slug')
+  async findOne(@Param('slug') slug: string) {
+    return this.memorialsService.findOne(slug);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':slug')
+  async update(
+    @Param('slug') slug: string,
+    @Body() updateMemorialDto: UpdateMemorialDto,
+    @Request() req,
+  ) {
+    const userId = req.user.id;
+    return this.memorialsService.update(slug, updateMemorialDto, userId);
+  }
+
+  // ATUALIZAR STATUS DO MEMORIAL (ATIVAR/PENDENTE)
+  @UseGuards(JwtAuthGuard)
+  @Patch(':slug/status')
+  async updateStatus(
+    @Param('slug') slug: string,
+    @Body('status') status: string,
+    @Request() req,
+  ) {
+    const userId = req.user.id;
+    return this.memorialsService.updateStatus(slug, status, userId);
+  }
+
+  // --- NOVAS ROTAS DE MENSAGENS PARA MODERAÃ‡ÃƒO ---
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':slug/messages/all')
+  async getMemorialMessagesForModeration(
+    @Param('slug') slug: string,
+    @Request() req,
+  ) {
+    const userId = req.user.id;
+    return this.memorialsService.getMessagesBySlug(slug, userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('messages/:id/status')
+  async updateMessageStatus(
+    @Param('id') id: string,
+    @Body('status') status: string,
+  ) {
+    return this.memorialsService.updateMessageStatus(id, status);
+  }
+
+  // ----------------------------------------------
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':slug')
+  async remove(@Param('slug') slug: string, @Request() req) {
+    const userId = req.user.id;
+    return this.memorialsService.remove(slug, userId);
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\memorials\memorials.module.ts ===
+
+import { Module } from '@nestjs/common';
+import { MemorialsController } from './memorials.controller';
+import { MemorialsService } from './memorials.service';
+import { SupabaseModule } from '../supabase/supabase.module';
+
+@Module({
+  imports: [SupabaseModule],
+  controllers: [MemorialsController],
+  providers: [MemorialsService],
+})
+export class MemorialsModule {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\memorials\memorials.service.spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { MemorialsService } from './memorials.service';
+
+describe('MemorialsService', () => {
+  let service: MemorialsService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [MemorialsService],
+    }).compile();
+
+    service = module.get<MemorialsService>(MemorialsService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\memorials\memorials.service.ts ===
+
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+  BadRequestException,
+} from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { SupabaseService } from '../supabase/supabase.service';
+import { CreateMemorialDto } from './dto/create-memorial.dto';
+import { UpdateMemorialDto } from './dto/update-memorial.dto';
+
+@Injectable()
+export class MemorialsService {
+  constructor(
+    private prisma: PrismaService,
+    private supabaseService: SupabaseService,
+  ) {}
+
+  // FunÃ§Ã£o auxiliar para normalizar e limpar strings para o formato de slug
+  private formatSlug(text: string): string {
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^\w\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-');
+  }
+
+  // Verifica a disponibilidade do slug e retorna uma sugestÃ£o caso esteja em uso
+  async checkSlugAvailability(
+    slug: string,
+  ): Promise<{ available: boolean; suggestedSlug?: string }> {
+    const normalizedSlug = this.formatSlug(slug);
+
+    if (!normalizedSlug) {
+      throw new BadRequestException('O slug fornecido Ã© invÃ¡lido.');
+    }
+
+    const existing = await this.prisma.memorial.findUnique({
+      where: { slug: normalizedSlug },
+    });
+
+    if (!existing) {
+      return { available: true };
+    }
+
+    // Sugere uma alternativa acrescentando o ano atual ou um sufixo numÃ©rico seguro
+    const suggestedSlug = `${normalizedSlug}-${new Date().getFullYear()}`;
+    return { available: false, suggestedSlug };
+  }
+
+  async create(
+    createMemorialDto: CreateMemorialDto,
+    files: {
+      profilePicture?: Express.Multer.File[];
+      gallery?: Express.Multer.File[];
+    },
+    userId: string,
+  ) {
+    if (!files.profilePicture || files.profilePicture.length === 0) {
+      throw new BadRequestException(
+        'A foto de perfil (profilePicture) Ã© obrigatÃ³ria.',
+      );
+    }
+
+    const profileFile = files.profilePicture[0];
+    const profilePictureUrl = await this.supabaseService.uploadFile(
+      profileFile,
+      'profiles',
+    );
+
+    const galleryUrls: string[] = [];
+    if (files.gallery && files.gallery.length > 0) {
+      for (const image of files.gallery) {
+        const imageUrl = await this.supabaseService.uploadFile(
+          image,
+          'gallery',
+        );
+        galleryUrls.push(imageUrl);
+      }
+    }
+
+    // Se o usuÃ¡rio informou um slug customizado, usamo-lo; caso contrÃ¡rio, geramos a partir do fullName
+    const rawSlug =
+      createMemorialDto.slug && createMemorialDto.slug.trim() !== ''
+        ? createMemorialDto.slug
+        : createMemorialDto.fullName;
+
+    const slug = this.formatSlug(rawSlug);
+
+    // Valida se o slug gerado jÃ¡ existe no banco de dados para evitar duplicidade e erros 500
+    const existingMemorial = await this.prisma.memorial.findUnique({
+      where: { slug },
+    });
+
+    if (existingMemorial) {
+      const suggestedSlug = `${slug}-${new Date().getFullYear()}`;
+      throw new BadRequestException(
+        `Este endereÃ§o jÃ¡ estÃ¡ em uso. Mude para outro de sua escolha ou use: ${suggestedSlug}`,
+      );
+    }
+
+    return this.prisma.memorial.create({
+      data: {
+        fullName: createMemorialDto.fullName,
+        birthCity: createMemorialDto.birthCity,
+        deathCity: createMemorialDto.deathCity,
+        cemetery: createMemorialDto.cemetery,
+        biography: createMemorialDto.biography,
+        status: createMemorialDto.status || 'PENDING',
+        slug,
+        birthDate: new Date(createMemorialDto.birthDate),
+        deathDate: new Date(createMemorialDto.deathDate),
+        expiresAt: createMemorialDto.expiresAt
+          ? new Date(createMemorialDto.expiresAt)
+          : null,
+        partnerId:
+          createMemorialDto.partnerId &&
+          createMemorialDto.partnerId.trim() !== ''
+            ? createMemorialDto.partnerId
+            : null,
+        profilePicture: profilePictureUrl,
+        gallery: galleryUrls,
+        userId,
+      },
+    });
+  }
+
+  async findAll(userId: string) {
+    return this.prisma.memorial.findMany({
+      where: { userId },
+      include: { muralMessages: true },
+    });
+  }
+
+  async findOne(slug: string) {
+    const memorial = await this.prisma.memorial.findUnique({
+      where: { slug },
+      include: { muralMessages: true },
+    });
+    if (!memorial)
+      throw new NotFoundException(`Memorial '${slug}' nÃ£o encontrado.`);
+    return memorial;
+  }
+
+  async update(
+    slug: string,
+    updateMemorialDto: UpdateMemorialDto,
+    userId: string,
+  ) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissÃ£o.');
+
+    // Se o slug estiver sendo atualizado, limpamos e verificamos unicidade
+    let dataToUpdate: any = { ...updateMemorialDto };
+    if (updateMemorialDto.slug) {
+      const newSlug = this.formatSlug(updateMemorialDto.slug);
+      if (newSlug !== memorial.slug) {
+        const conflict = await this.prisma.memorial.findUnique({
+          where: { slug: newSlug },
+        });
+        if (conflict) {
+          const suggestedSlug = `${newSlug}-${new Date().getFullYear()}`;
+          throw new BadRequestException(
+            `Este endereÃ§o jÃ¡ estÃ¡ em uso. Mude para outro de sua escolha ou use: ${suggestedSlug}`,
+          );
+        }
+        dataToUpdate.slug = newSlug;
+      }
+    }
+
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: dataToUpdate,
+    });
+  }
+
+  async updateStatus(slug: string, status: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissÃ£o.');
+
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: { status },
+    });
+  }
+
+  async getApprovedMessages(memorialId: string) {
+    return this.prisma.muralMessage.findMany({
+      where: {
+        memorialId: memorialId,
+        status: 'APPROVED',
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async createVisitorMessage(
+    memorialId: string,
+    data: { visitorName: string; message: string },
+  ) {
+    const memorial = await this.prisma.memorial.findUnique({
+      where: { id: memorialId },
+    });
+
+    if (!memorial) {
+      throw new NotFoundException('Memorial nÃ£o encontrado.');
+    }
+
+    return this.prisma.muralMessage.create({
+      data: {
+        memorialId,
+        visitorName: data.visitorName,
+        message: data.message,
+        status: 'PENDING',
+      },
+    });
+  }
+
+  async getMessagesBySlug(slug: string, userId: string) {
+    const memorial = await this.prisma.memorial.findFirst({
+      where: { slug, userId },
+      include: {
+        muralMessages: {
+          orderBy: { createdAt: 'desc' },
+        },
+      },
+    });
+
+    if (!memorial) {
+      throw new NotFoundException(
+        'Memorial nÃ£o encontrado ou vocÃª nÃ£o tem permissÃ£o.',
+      );
+    }
+
+    return memorial.muralMessages;
+  }
+
+  async updateMessageStatus(messageId: string, status: string) {
+    const message = await this.prisma.muralMessage.findUnique({
+      where: { id: messageId },
+    });
+
+    if (!message) {
+      throw new NotFoundException('Mensagem nÃ£o encontrada.');
+    }
+
+    return this.prisma.muralMessage.update({
+      where: { id: messageId },
+      data: { status },
+    });
+  }
+
+  async remove(slug: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissÃ£o.');
+    return this.prisma.memorial.delete({ where: { slug } });
+  }
+
+  async addImage(slug: string, imageUrl: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissÃ£o.');
+
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: { gallery: { push: imageUrl } },
+    });
+  }
+
+  async removeImage(slug: string, imageUrl: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissÃ£o.');
+
+    const updatedGallery = memorial.gallery.filter((url) => url !== imageUrl);
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: { gallery: { set: updatedGallery } },
+    });
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\memorials\memorials.servicets.txt ===
+
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+  BadRequestException,
+} from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { SupabaseService } from '../supabase/supabase.service';
+import { CreateMemorialDto } from './dto/create-memorial.dto';
+import { UpdateMemorialDto } from './dto/update-memorial.dto';
+
+@Injectable()
+export class MemorialsService {
+  constructor(
+    private prisma: PrismaService,
+    private supabaseService: SupabaseService,
+  ) {}
+
+  async create(
+    createMemorialDto: CreateMemorialDto,
+    files: {
+      profilePicture?: Express.Multer.File[];
+      gallery?: Express.Multer.File[];
+    },
+    userId: string,
+  ) {
+    // 1. Validar se a foto de perfil foi enviada obrigatoriamente
+    if (!files.profilePicture || files.profilePicture.length === 0) {
+      throw new BadRequestException(
+        'A foto de perfil (profilePicture) Ã© obrigatÃ³ria.',
+      );
+    }
+
+    // 2. Fazer o upload da foto de perfil para o Supabase
+    const profileFile = files.profilePicture[0];
+    const profilePictureUrl = await this.supabaseService.uploadFile(
+      profileFile,
+      'profiles',
+    );
+
+    // 3. Fazer o upload das fotos da galeria (se houver) para o Supabase
+    const galleryUrls: string[] = [];
+    if (files.gallery && files.gallery.length > 0) {
+      for (const image of files.gallery) {
+        const imageUrl = await this.supabaseService.uploadFile(
+          image,
+          'gallery',
+        );
+        galleryUrls.push(imageUrl);
+      }
+    }
+
+    // 4. Gerar um slug amigÃ¡vel e Ãºnico baseado no nome completo
+    const baseSlug = createMemorialDto.fullName
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-');
+
+    const slug = `${baseSlug}-${Date.now().toString().slice(-4)}`;
+
+    // 5. Salvar no Banco de Dados utilizando o Prisma com tratamento correto dos campos
+    return this.prisma.memorial.create({
+      data: {
+        fullName: createMemorialDto.fullName,
+        birthCity: createMemorialDto.birthCity,
+        deathCity: createMemorialDto.deathCity,
+        cemetery: createMemorialDto.cemetery,
+        biography: createMemorialDto.biography,
+        status: createMemorialDto.status || 'PENDING',
+        slug,
+        birthDate: new Date(createMemorialDto.birthDate),
+        deathDate: new Date(createMemorialDto.deathDate),
+        expiresAt: createMemorialDto.expiresAt
+          ? new Date(createMemorialDto.expiresAt)
+          : null,
+        partnerId:
+          createMemorialDto.partnerId &&
+          createMemorialDto.partnerId.trim() !== ''
+            ? createMemorialDto.partnerId
+            : null,
+        profilePicture: profilePictureUrl,
+        gallery: galleryUrls,
+        userId,
+      },
+    });
+  }
+
+  async findAll(userId: string) {
+    return this.prisma.memorial.findMany({
+      where: { userId },
+      include: { muralMessages: true },
+    });
+  }
+
+  async findOne(slug: string) {
+    const memorial = await this.prisma.memorial.findUnique({
+      where: { slug },
+      include: { muralMessages: true },
+    });
+    if (!memorial)
+      throw new NotFoundException(`Memorial '${slug}' nÃ£o encontrado.`);
+    return memorial;
+  }
+
+  async update(
+    slug: string,
+    updateMemorialDto: UpdateMemorialDto,
+    userId: string,
+  ) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissÃ£o.');
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: updateMemorialDto,
+    });
+  }
+
+  // NOVA FUNÃ‡ÃƒO PARA ATUALIZAR O STATUS DO MEMORIAL
+  async updateStatus(slug: string, status: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissÃ£o.');
+
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: { status },
+    });
+  }
+
+  async remove(slug: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissÃ£o.');
+    return this.prisma.memorial.delete({ where: { slug } });
+  }
+
+  // --- LÃ³gica de Galeria ---
+
+  async addImage(slug: string, imageUrl: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissÃ£o.');
+
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: { gallery: { push: imageUrl } },
+    });
+  }
+
+  async removeImage(slug: string, imageUrl: string, userId: string) {
+    const memorial = await this.findOne(slug);
+    if (memorial.userId !== userId)
+      throw new ForbiddenException('Sem permissÃ£o.');
+
+    const updatedGallery = memorial.gallery.filter((url) => url !== imageUrl);
+    return this.prisma.memorial.update({
+      where: { slug },
+      data: { gallery: { set: updatedGallery } },
+    });
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\memorials\dto\add-gallery-image.dto.ts ===
+
+import { IsUrl, IsNotEmpty } from 'class-validator';
+
+export class AddGalleryImageDto {
+  @IsUrl()
+  @IsNotEmpty()
+  imageUrl!: string;
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\memorials\dto\create-memorial.dto.ts ===
+
+import {
+  IsString,
+  IsNotEmpty,
+  IsDateString,
+  IsArray,
+  IsOptional,
+} from 'class-validator';
+
+export class CreateMemorialDto {
+  @IsString()
+  @IsOptional()
+  slug?: string;
+
+  @IsString()
+  @IsNotEmpty({ message: 'O nome completo Ã© obrigatÃ³rio.' })
+  fullName!: string;
+
+  @IsDateString(
+    {},
+    { message: 'A data de nascimento deve ser uma data vÃ¡lida.' },
+  )
+  @IsNotEmpty()
+  birthDate!: string;
+
+  @IsDateString(
+    {},
+    { message: 'A data de falecimento deve ser uma data vÃ¡lida.' },
+  )
+  @IsNotEmpty()
+  deathDate!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  birthCity!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  deathCity!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  cemetery!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  biography!: string;
+
+  @IsString()
+  @IsOptional()
+  status?: string;
+
+  @IsDateString()
+  @IsOptional()
+  expiresAt?: string;
+
+  @IsString()
+  @IsOptional()
+  partnerId?: string;
+
+  @IsString()
+  @IsOptional()
+  profilePicture?: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  gallery?: string[];
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\memorials\dto\update-memorial.dto.ts ===
+
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateMemorialDto } from './create-memorial.dto';
+
+export class UpdateMemorialDto extends PartialType(CreateMemorialDto) {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\mural-messages\mural-messages.controller.spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { MuralMessagesController } from './mural-messages.controller';
+
+describe('MuralMessagesController', () => {
+  let controller: MuralMessagesController;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [MuralMessagesController],
+    }).compile();
+
+    controller = module.get<MuralMessagesController>(MuralMessagesController);
+  });
+
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\mural-messages\mural-messages.controller.ts ===
+
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Patch,
+  Get,
+  Query,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
+import { MuralMessagesService } from './mural-messages.service';
+import { CreateMessageDto } from './dto/create-message.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+
+// MudanÃ§a: O prefixo agora Ã© 'mural', evitando conflito com 'memorials'
+@Controller('mural/:memorialId/messages')
+export class MuralMessagesController {
+  constructor(private readonly muralMessagesService: MuralMessagesService) {}
+
+  // POST: http://localhost:3000/mural/:memorialId/messages
+  @Post()
+  async create(
+    @Param('memorialId') memorialId: string,
+    @Body() createMessageDto: CreateMessageDto,
+  ) {
+    return this.muralMessagesService.create(memorialId, createMessageDto);
+  }
+
+  // GET (PÃºblica): http://localhost:3000/mural/:memorialId/messages/approved
+  @Get('approved')
+  async findApproved(
+    @Param('memorialId') memorialId: string,
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+  ) {
+    return this.muralMessagesService.findApprovedByMemorial(
+      memorialId,
+      Number(page),
+      Number(limit),
+    );
+  }
+
+  // GET (Privada): http://localhost:3000/mural/:memorialId/messages
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async findAll(
+    @Param('memorialId') memorialId: string,
+    @Request() req,
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
+  ) {
+    return this.muralMessagesService.findAllByMemorial(
+      memorialId,
+      req.user.id,
+      Number(page),
+      Number(limit),
+    );
+  }
+
+  // PATCH (Aprovar): http://localhost:3000/mural/:memorialId/messages/:messageId/approve
+  @UseGuards(JwtAuthGuard)
+  @Patch(':messageId/approve')
+  async approveMessage(
+    @Param('memorialId') memorialId: string,
+    @Param('messageId') messageId: string,
+    @Request() req,
+  ) {
+    return this.muralMessagesService.approveMessage(
+      messageId,
+      memorialId,
+      req.user.id,
+    );
+  }
+
+  // PATCH (Rejeitar): http://localhost:3000/mural/:memorialId/messages/:messageId/reject
+  @UseGuards(JwtAuthGuard)
+  @Patch(':messageId/reject')
+  async rejectMessage(
+    @Param('memorialId') memorialId: string,
+    @Param('messageId') messageId: string,
+    @Request() req,
+  ) {
+    return this.muralMessagesService.rejectMessage(
+      messageId,
+      memorialId,
+      req.user.id,
+    );
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\mural-messages\mural-messages.module.ts ===
+
+import { Module } from '@nestjs/common';
+import { MuralMessagesController } from './mural-messages.controller';
+import { MuralMessagesService } from './mural-messages.service';
+import { PrismaModule } from '../prisma/prisma.module';
+import { AuthModule } from '../auth/auth.module'; // Importe o AuthModule
+
+@Module({
+  imports: [PrismaModule, AuthModule], // Adicione AuthModule aqui
+  controllers: [MuralMessagesController],
+  providers: [MuralMessagesService],
+})
+export class MuralMessagesModule {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\mural-messages\mural-messages.service.spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { MuralMessagesService } from './mural-messages.service';
+
+describe('MuralMessagesService', () => {
+  let service: MuralMessagesService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [MuralMessagesService],
+    }).compile();
+
+    service = module.get<MuralMessagesService>(MuralMessagesService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\mural-messages\mural-messages.service.ts ===
+
+import { Injectable, ForbiddenException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateMessageDto } from './dto/create-message.dto';
+
+@Injectable()
+export class MuralMessagesService {
+  constructor(private readonly prisma: PrismaService) {}
+
+  // ValidaÃ§Ã£o centralizada para verificar se o usuÃ¡rio Ã© dono do memorial
+  async validateOwnership(memorialId: string, userId: string) {
+    const memorial = await this.prisma.memorial.findUnique({
+      where: { id: memorialId },
+      select: { userId: true },
+    });
+
+    if (!memorial || memorial.userId !== userId) {
+      throw new ForbiddenException(
+        'VocÃª nÃ£o tem permissÃ£o para realizar esta aÃ§Ã£o.',
+      );
+    }
+  }
+
+  async create(memorialId: string, createMessageDto: CreateMessageDto) {
+    return this.prisma.muralMessage.create({
+      data: {
+        ...createMessageDto,
+        memorialId,
+        status: 'PENDING',
+      },
+    });
+  }
+
+  async approveMessage(messageId: string, memorialId: string, userId: string) {
+    await this.validateOwnership(memorialId, userId);
+    return this.prisma.muralMessage.update({
+      where: { id: messageId },
+      data: { status: 'APPROVED' },
+    });
+  }
+
+  async rejectMessage(messageId: string, memorialId: string, userId: string) {
+    await this.validateOwnership(memorialId, userId);
+    return this.prisma.muralMessage.update({
+      where: { id: messageId },
+      data: { status: 'REJECTED' },
+    });
+  }
+
+  // Busca mensagens pÃºblicas com paginaÃ§Ã£o
+  async findApprovedByMemorial(
+    memorialId: string,
+    page: number = 1,
+    limit: number = 10,
+  ) {
+    const skip = (page - 1) * limit;
+    return this.prisma.muralMessage.findMany({
+      where: {
+        memorialId,
+        status: 'APPROVED',
+      },
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: limit,
+    });
+  }
+
+  // Busca todas as mensagens (painel do dono) com paginaÃ§Ã£o
+  async findAllByMemorial(
+    memorialId: string,
+    userId: string,
+    page: number = 1,
+    limit: number = 10,
+  ) {
+    await this.validateOwnership(memorialId, userId);
+    const skip = (page - 1) * limit;
+    return this.prisma.muralMessage.findMany({
+      where: { memorialId },
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: limit,
+    });
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\mural-messages\dto\create-message.dto.ts ===
+
+import { IsString, IsNotEmpty } from 'class-validator';
+
+export class CreateMessageDto {
+  @IsString()
+  @IsNotEmpty()
+  visitorName!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  message!: string;
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\prisma\prisma.module.ts ===
+
+import { Module, Global } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
+
+@Global() // ðŸ›¡ï¸ Deixa a conexÃ£o do banco disponÃ­vel globalmente no sistema
+@Module({
+  providers: [PrismaService],
+  exports: [PrismaService], // Exporta para que os outros mÃ³dulos usem o Prisma
+})
+export class PrismaModule {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\prisma\prisma.service.spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { PrismaService } from './prisma.service';
+
+describe('PrismaService', () => {
+  let service: PrismaService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [PrismaService],
+    }).compile();
+
+    service = module.get<PrismaService>(PrismaService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\prisma\prisma.service.ts ===
+
+import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+
+@Injectable()
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
+  constructor() {
+    // Na versÃ£o estÃ¡vel, o super() vazio lÃª o arquivo .env automaticamente sem quebrar!
+    super();
+  }
+
+  async onModuleInit() {
+    // Abre a conexÃ£o com o banco Neon assim que o NestJS inicializa
+    await this.$connect();
+  }
+
+  async onModuleDestroy() {
+    // Fecha a conexÃ£o limpamente se o servidor for desligado
+    await this.$disconnect();
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\supabase\supabase.module.ts ===
+
+import { Module } from '@nestjs/common';
+import { SupabaseService } from './supabase.service';
+
+@Module({
+  providers: [SupabaseService],
+  exports: [SupabaseService],
+})
+export class SupabaseModule {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\supabase\supabase.service.ts ===
+
+import { Injectable } from '@nestjs/common';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+
+@Injectable()
+export class SupabaseService {
+  private supabase: SupabaseClient;
+  private bucket = process.env.SUPABASE_BUCKET || 'memorial-files';
+
+  constructor() {
+    this.supabase = createClient(
+      process.env.SUPABASE_URL!,
+      process.env.SUPABASE_KEY!,
+    );
+  }
+
+  async uploadFile(file: Express.Multer.File, folder: string): Promise<string> {
+    const fileExt = file.originalname.split('.').pop();
+    const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+
+    const { data, error } = await this.supabase.storage
+      .from(this.bucket)
+      .upload(fileName, file.buffer, {
+        contentType: file.mimetype,
+        upsert: false,
+      });
+
+    if (error) {
+      console.error('SUPABASE ERROR:', error);
+      console.error('SUPABASE ERROR CAUSE:', (error as any).cause);
+      throw new Error(
+        `Erro ao enviar arquivo para o Supabase: ${error.message}`,
+      );
+    }
+
+    const { data: publicUrlData } = this.supabase.storage
+      .from(this.bucket)
+      .getPublicUrl(data.path);
+
+    return publicUrlData.publicUrl;
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\supabase\supabase_service.txt ===
+
+import { Injectable } from '@nestjs/common';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+
+@Injectable()
+export class SupabaseService {
+  private supabase: SupabaseClient;
+  private bucket = process.env.SUPABASE_BUCKET || 'memorial-files';
+
+  constructor() {
+    this.supabase = createClient(
+      process.env.SUPABASE_URL!,
+      process.env.SUPABASE_KEY!,
+    );
+  }
+
+  async uploadFile(file: Express.Multer.File, folder: string): Promise<string> {
+    const fileExt = file.originalname.split('.').pop();
+    const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+
+    const { data, error } = await this.supabase.storage
+      .from(this.bucket)
+      .upload(fileName, file.buffer, {
+        contentType: file.mimetype,
+        upsert: false,
+      });
+
+    if (error) {
+      throw new Error(
+        `Erro ao enviar arquivo para o Supabase: ${error.message}`,
+      );
+    }
+
+    const { data: publicUrlData } = this.supabase.storage
+      .from(this.bucket)
+      .getPublicUrl(data.path);
+
+    return publicUrlData.publicUrl;
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\tasks\tasks.controller.ts ===
+
+import { Controller, Post } from '@nestjs/common';
+import { TasksService } from './tasks.service';
+
+@Controller('tasks')
+export class TasksController {
+  constructor(private readonly tasksService: TasksService) {}
+
+  @Post('test-email')
+  async triggerTest() {
+    // Isso executarÃ¡ a mesma lÃ³gica do agendamento manualmente
+    await this.tasksService.handleExpirationCheck();
+    return { message: 'VerificaÃ§Ã£o de e-mails executada com sucesso!' };
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\tasks\tasks.module.ts ===
+
+import { Module } from '@nestjs/common';
+import { TasksService } from './tasks.service';
+import { PrismaModule } from '../prisma/prisma.module';
+import { MailModule } from '../mail/mail.module';
+import { TasksController } from './tasks.controller';
+
+@Module({
+  imports: [PrismaModule, MailModule],
+  providers: [TasksService],
+  exports: [TasksService],
+  controllers: [TasksController],
+})
+export class TasksModule {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\tasks\tasks.service.ts ===
+
+import { Injectable, Logger } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { PrismaService } from '../prisma/prisma.service';
+import { MailService } from '../mail/mail.service';
+
+@Injectable()
+export class TasksService {
+  private readonly logger = new Logger(TasksService.name);
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly mailService: MailService,
+  ) {}
+
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async handleExpirationCheck() {
+    this.logger.log(
+      'Iniciando verificaÃ§Ã£o diÃ¡ria de expiraÃ§Ã£o de memoriais...',
+    );
+
+    const today = new Date();
+    const limitDate = new Date();
+    limitDate.setDate(today.getDate() + 3);
+
+    // Busca apenas memoriais que expiram nos prÃ³ximos 3 dias
+    const expiringMemorials = await this.prisma.memorial.findMany({
+      where: {
+        expiresAt: {
+          gte: today,
+          lte: limitDate,
+        },
+      },
+      include: { user: true },
+    });
+
+    if (expiringMemorials.length === 0) {
+      this.logger.log('Nenhum memorial expirando nos prÃ³ximos 3 dias.');
+      return;
+    }
+
+    this.logger.log(
+      `Encontrados ${expiringMemorials.length} memoriais para notificar.`,
+    );
+
+    for (const memorial of expiringMemorials) {
+      const userEmail = memorial.user?.email;
+
+      if (userEmail) {
+        try {
+          await this.mailService.sendExpirationWarning(
+            userEmail,
+            memorial.fullName,
+          );
+          this.logger.log(`Aviso de expiraÃ§Ã£o enviado para: ${userEmail}`);
+        } catch (error) {
+          const message =
+            error instanceof Error ? error.message : 'Erro desconhecido';
+          this.logger.error(
+            `Falha ao enviar e-mail para ${userEmail}: ${message}`,
+          );
+        }
+      } else {
+        this.logger.warn(
+          `Memorial ${memorial.fullName} (ID: ${memorial.id}) nÃ£o possui e-mail de usuÃ¡rio associado.`,
+        );
+      }
+    }
+
+    this.logger.log('VerificaÃ§Ã£o de expiraÃ§Ã£o concluÃ­da com sucesso.');
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\users\users.controller.spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
+
+describe('UsersController', () => {
+  let controller: UsersController;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [UsersController],
+      providers: [UsersService],
+    }).compile();
+
+    controller = module.get<UsersController>(UsersController);
+  });
+
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\users\users.controller.ts ===
+
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard'; // Import do novo Guard
+import { Roles } from '../auth/decorators/roles.decorator'; // Import do novo Decorator
+
+@Controller('users')
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+
+  // Mantemos pÃºblica para novos cadastros
+  @Post()
+  async create(@Body() createUserDto: CreateUserDto) {
+    return await this.usersService.create(createUserDto);
+  }
+
+  // Protegemos a listagem exigindo token (JWT) E papel de ADMIN
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get()
+  async findAll() {
+    return await this.usersService.findAll();
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\users\users.module.ts ===
+
+import { Module } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { UsersController } from './users.controller';
+
+@Module({
+  controllers: [UsersController],
+  providers: [UsersService],
+  exports: [UsersService], // <-- ESSENCIAL: Isso permite que outros mÃ³dulos usem o UsersService
+})
+export class UsersModule {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\users\users.service.spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { UsersService } from './users.service';
+
+describe('UsersService', () => {
+  let service: UsersService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [UsersService],
+    }).compile();
+
+    service = module.get<UsersService>(UsersService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\users\users.service.ts ===
+
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
+
+@Injectable()
+export class UsersService {
+  constructor(private prisma: PrismaService) {}
+
+  // Cria um novo usuÃ¡rio com a senha criptografada
+  async create(data: any) {
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(data.password, saltOrRounds);
+
+    return this.prisma.user.create({
+      data: {
+        ...data,
+        password: hashedPassword,
+      },
+    });
+  }
+
+  // Lista todos os usuÃ¡rios SEM retornar o hash da senha
+  async findAll() {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        bairro: true,
+        cep: true,
+        cidade: true,
+        complemento: true,
+        document: true,
+        logradouro: true,
+        numero: true,
+        phone: true,
+        uf: true,
+        isVerified: true,
+        updatedAt: true,
+      },
+    });
+  }
+
+  // Busca um usuÃ¡rio pelo e-mail (necessÃ¡rio retornar a senha para validar o login)
+  async findOneByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
+  // Busca por ID (tambÃ©m excluÃ­mos a senha por seguranÃ§a)
+  async findOneById(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        isVerified: true,
+        refreshToken: true,
+        // Senha excluÃ­da aqui
+      },
+    });
+  }
+
+  // Atualiza o hash do refresh token do usuÃ¡rio
+  async updateRefreshToken(id: string, refreshToken: string | null) {
+    return this.prisma.user.update({
+      where: { id },
+      data: { refreshToken },
+    });
+  }
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\users\dto\create-user.dto.ts ===
+
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'; // Importe estes dois
+
+export class CreateUserDto {
+  @ApiProperty({ description: 'Nome completo do usuÃ¡rio' })
+  @IsString({ message: 'O nome deve ser um texto vÃ¡lido' })
+  @IsNotEmpty({ message: 'O nome Ã© obrigatÃ³rio' })
+  name!: string;
+
+  @ApiProperty({ description: 'EndereÃ§o de e-mail do usuÃ¡rio' })
+  @IsEmail({}, { message: 'O e-mail fornecido nÃ£o Ã© vÃ¡lido' })
+  @IsNotEmpty({ message: 'O e-mail Ã© obrigatÃ³rio' })
+  email!: string;
+
+  @ApiProperty({ description: 'Senha (mÃ­nimo 6 caracteres)', minLength: 6 })
+  @IsString()
+  @IsNotEmpty({ message: 'A senha Ã© obrigatÃ³ria' })
+  @MinLength(6, { message: 'A senha deve ter no mÃ­nimo 6 caracteres' })
+  password!: string;
+
+  @ApiProperty({ description: 'CPF ou CNPJ do usuÃ¡rio' })
+  @IsString({ message: 'O documento deve ser um texto vÃ¡lido' })
+  @IsNotEmpty({ message: 'O documento (CPF ou CNPJ) Ã© obrigatÃ³rio' })
+  document!: string;
+
+  @ApiPropertyOptional({ description: 'Cargo ou permissÃ£o do usuÃ¡rio' })
+  @IsString()
+  @IsOptional()
+  role?: string;
+
+  @ApiPropertyOptional({ description: 'Telefone de contato' })
+  @IsString()
+  @IsOptional()
+  phone?: string;
+
+  @ApiProperty({ description: 'CÃ³digo de EndereÃ§amento Postal (CEP)' })
+  @IsString()
+  @IsNotEmpty({ message: 'O CEP Ã© obrigatÃ³rio' })
+  cep!: string;
+
+  @ApiProperty({ description: 'Nome da rua ou logradouro' })
+  @IsString()
+  @IsNotEmpty({ message: 'O logradouro Ã© obrigatÃ³rio' })
+  logradouro!: string;
+
+  @ApiProperty({ description: 'NÃºmero do endereÃ§o' })
+  @IsString()
+  @IsNotEmpty({ message: 'O nÃºmero Ã© obrigatÃ³rio' })
+  numero!: string;
+
+  @ApiPropertyOptional({ description: 'Complemento (opcional)' })
+  @IsString()
+  @IsOptional()
+  complemento?: string;
+
+  @ApiProperty({ description: 'Bairro' })
+  @IsString()
+  @IsNotEmpty({ message: 'O bairro Ã© obrigatÃ³rio' })
+  bairro!: string;
+
+  @ApiProperty({ description: 'Cidade' })
+  @IsString()
+  @IsNotEmpty({ message: 'A cidade Ã© obrigatÃ³ria' })
+  cidade!: string;
+
+  @ApiProperty({ description: 'Unidade Federativa (UF)' })
+  @IsString()
+  @IsNotEmpty({ message: 'O estado (UF) Ã© obrigatÃ³rio' })
+  uf!: string;
+}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\users\dto\update-user.dto.ts ===
+
+import { PartialType } from '@nestjs/swagger'; // ðŸ‘ˆ Mude a origem aqui
+import { CreateUserDto } from './create-user.dto';
+
+export class UpdateUserDto extends PartialType(CreateUserDto) {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\src\users\entities\user.entity.ts ===
+
+export class User {}
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\test\app.e2e-spec.ts ===
+
+import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import request from 'supertest';
+import { App } from 'supertest/types';
+import { AppModule } from './../src/app.module';
+
+describe('AppController (e2e)', () => {
+  let app: INestApplication<App>;
+
+  beforeEach(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  it('/ (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/')
+      .expect(200)
+      .expect('Hello World!');
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+});
+
+
+
+=== ARQUIVO: C:\dev\memorial\backend\test\jest-e2e.json ===
+
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  }
+}
+
